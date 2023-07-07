@@ -54,7 +54,7 @@ const services = [
     icon: backend,
   },
   {
-    title: "Content Creator",
+    title: "UI | UX Designer",
     icon: creator,
   },
 ];
@@ -116,55 +116,49 @@ const technologies = [
 
 const experiences = [
   {
-    title: "React.js Developer",
-    company_name: "Starbucks",
+    title: "Senior Frontend Developer",
+    company_name: "Hasti Innovative Trading (HIT)",
     icon: starbucks,
     iconBg: "#383E56",
-    date: "March 2020 - April 2021",
+    date: "Aug 2022 - Pre",
+    location: "IRAN | Tehran",
     points: [
       "Developing and maintaining web applications using React.js and other related technologies.",
       "Collaborating with cross-functional teams including designers, product managers, and other developers to create high-quality products.",
       "Implementing responsive design and ensuring cross-browser compatibility.",
-      "Participating in code reviews and providing constructive feedback to other developers.",
+      "Performs code reviews of other team members' work and recommends changes to improve code quality Work hand-in-hand with Design and Development groups to create shared standards and applications from mock-ups in figma, Illustrator, and Photoshop",
+      "Professional in HTML and CSS/SASS and JAVASCRIPT/REACT/NEXT Support planning and testing features Profiling and optimization of existing features",
+      "Working with business stakeholders and project managers to manage timelines and client expectations",
     ],
   },
   {
-    title: "React Native Developer",
-    company_name: "Tesla",
+    title: "React  Developer",
+    company_name: "Digialpha",
     icon: tesla,
     iconBg: "#E6DEDD",
-    date: "Jan 2021 - Feb 2022",
+    date: "Jul 2021 - May 2022",
+    location: "IRAN | Tehran",
     points: [
-      "Developing and maintaining web applications using React.js and other related technologies.",
-      "Collaborating with cross-functional teams including designers, product managers, and other developers to create high-quality products.",
-      "Implementing responsive design and ensuring cross-browser compatibility.",
+      "Developed and maintained several web applications using React, Redux, Node.js, and other related technologies.",
+      "Worked closely with product managers, designers, and other developers to deliver high-quality products that met customer requirements.",
+      "Led a team of junior developers, providing mentorship and guidance on best practices for React development.",
       "Participating in code reviews and providing constructive feedback to other developers.",
+      "Developed reusable components and libraries to improve development",
     ],
   },
   {
-    title: "Web Developer",
-    company_name: "Shopify",
+    title: "Full Stack Developer",
+    company_name: "Chatrata",
     icon: shopify,
+    location: "IRAN | Tehran",
     iconBg: "#383E56",
-    date: "Jan 2022 - Jan 2023",
+    date: "Feb 2020 - Apr 2021",
     points: [
-      "Developing and maintaining web applications using React.js and other related technologies.",
-      "Collaborating with cross-functional teams including designers, product managers, and other developers to create high-quality products.",
-      "Implementing responsive design and ensuring cross-browser compatibility.",
-      "Participating in code reviews and providing constructive feedback to other developers.",
-    ],
-  },
-  {
-    title: "Full stack Developer",
-    company_name: "Meta",
-    icon: meta,
-    iconBg: "#E6DEDD",
-    date: "Jan 2023 - Present",
-    points: [
-      "Developing and maintaining web applications using React.js and other related technologies.",
-      "Collaborating with cross-functional teams including designers, product managers, and other developers to create high-quality products.",
-      "Implementing responsive design and ensuring cross-browser compatibility.",
-      "Participating in code reviews and providing constructive feedback to other developers.",
+      "Beginner-level knowledge of C# and some Framework .net mvc Work with different development and QA teams to code HTML/CSS/JAVASCRIPT/JQUERY mockups, test, and verify projects through the development process",
+      "Prior experience with one of the following frameworks: Next.js or ASP.Net MVC 5",
+      "Research, develop and propose new technologies to improve or benefit the system architecture Providing post-launch support for defect and problem resolution",
+      "Assisting in back-end integration",
+      "Helping with feature design sessions",
     ],
   },
 ];
@@ -193,6 +187,39 @@ const testimonials = [
     designation: "CTO",
     company: "456 Enterprises",
     image: "https://randomuser.me/api/portraits/women/6.jpg",
+  },
+];
+
+const certificate = [
+  {
+    name: "Advance React",
+    issued: "may 2022",
+    credentialId: "",
+    company: "Coursera",
+    image: "/certificate/Advance-React.png",
+    link: "https://www.coursera.org/account/accomplishments/certificate/B72RTFCL9Y5E",
+    verify:
+      "https://www.coursera.org/account/accomplishments/verify/B72RTFCL9Y5E",
+  },
+  {
+    name: "React Native",
+    issued: "may 2022",
+    credentialId: "",
+    company: "Coursera",
+    image: "/certificate/Native.png",
+    link: "https://www.coursera.org/account/accomplishments/certificate/MPDH3LAWQFXC",
+    verify:
+      "https://www.coursera.org/account/accomplishments/verify/MPDH3LAWQFXC",
+  },
+  {
+    name: "Html and Css in Depth",
+    credentialId: "",
+    issued: "may 2022",
+    company: "Coursera",
+    image: "/certificate/HtmlAndCss.png",
+    link: "https://www.coursera.org/account/accomplishments/certificate/PUP96LAWTSTL",
+    verify:
+      "https://www.coursera.org/account/accomplishments/verify/PUP96LAWTSTL",
   },
 ];
 
@@ -262,4 +289,11 @@ const projects = [
   },
 ];
 
-export { services, technologies, experiences, testimonials, projects };
+export {
+  services,
+  technologies,
+  experiences,
+  testimonials,
+  projects,
+  certificate,
+};

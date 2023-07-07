@@ -46,7 +46,7 @@ const About = () => {
         variants={fadeIn("", "", 0.1, 1)}
         className="mt-4 text-secondary text-[17px] max-w-3xl leading-[30px]"
       >
-        A Highly skilled software engineer with over 6 years of experience in
+        A Highly skilled software engineer with over 4 years of experience in
         front-end development, delivering high-quality web applications with a
         proven track record. Proficient in HTML, CSS, JavaScript, TypeScript,
         ReactJS, and NextJS, consistently staying ahead of the curve with a
