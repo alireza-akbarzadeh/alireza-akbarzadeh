@@ -1,5 +1,3 @@
-# Frontend Developer | Web Applications | UI/UX Design
-
 # 👨‍💻 Frontend Developer | 🌐 Web Applications | 🎨 UI/UX Design
 
 ## 🚀 About Me
