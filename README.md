@@ -15,29 +15,15 @@ Here are some of the tools and technologies in my developer toolkit:
 - 📦 **Version Control:** Git, GitHub, Gitlab, Azure DevOps
 - 🛠️ **Build Tools:** Webpack, Gulp, Grunt, Parcel
 - 🧪 **Testing and Debugging:** Chrome DevTools, Jest, Cypress, Selenium
-- 🌐 **Cross-Browser Compatibility:** Babel, Autoprefixer, Browserstack
+- 🌐 **Cross-Browser Compatibility:** Babel, Autoprefixer, BrowserStack
 - ⚡ **Performance Optimization:** PageSpeed Insights, Lighthouse, Web Vitals
 - 🌐 **Frontend Infrastructure:** CDN, Contentful, GraphQL
 - 🛡️ **Security:** OWASP, Content Security Policy (CSP)
 
-## 🛠️ Projects
-
-I've had the privilege of working on several exciting projects. Here are a few noteworthy ones:
-
-### Project 1: [Project Name](https://github.com/yourusername/project-name)
-
-- Description: Briefly describe what this project is about and why it's cool.
-- Technologies Used: List the key technologies and tools you used in this project.
-- Screenshots/Demo: Optionally, include screenshots or a link to a live demo.
-
-### Project 2: [Project Name](https://github.com/yourusername/project-name)
-
-- Description: Briefly describe what this project is about and why it's cool.
-- Technologies Used: List the key technologies and tools you used in this project.
-- Screenshots/Demo: Optionally, include screenshots or a link to a live demo.
 
 ## 📫 Contact Me
 
 - Email: Alireza.Akbarzadeh.dev@email.com
 - LinkedIn: https://www.linkedin.com/in/alireza-akbarzadeh/
+- Portfolio: https://alireza-akbarzadeh.vercel.app/
 
