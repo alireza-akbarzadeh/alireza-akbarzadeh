@@ -11,7 +11,7 @@ import {
   Works,
   StarsCanvas,
   Certificate,
-} from "./components";
+} from "./containers";
 
 const App = () => {
   return (

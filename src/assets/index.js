@@ -20,19 +20,33 @@ import redux from "./tech/redux.png";
 import tailwind from "./tech/tailwind.png";
 import typescript from "./tech/typescript.png";
 import threejs from "./tech/threejs.svg";
+import graphql from "./tech/graphql.png";
+import reactNative from "./tech/reactNative.png";
+import nextjs from "./tech/nextjs.png";
+import vue from "./tech/vue.png";
+import apollo from "./tech/apollo.png";
+import mui from "./tech/mui.png";
 
 import meta from "./company/meta.png";
 import shopify from "./company/shopify.png";
 import starbucks from "./company/starbucks.png";
 import tesla from "./company/tesla.png";
+import HIT from "./company/logo-hit.png";
+import Digialpha from "./company/Digialpha.svg";
+import Chatrata from "./company/Chatrata.png";
 
 import carrent from "./carrent.png";
 import jobit from "./jobit.png";
 import tripguide from "./tripguide.png";
 import verified from "./verified.png";
+import dartil from "./projects/dartil.jpeg";
 
 export {
   logo,
+  vue,
+  apollo,
+  nextjs,
+  reactNative,
   backend,
   creator,
   mobile,
@@ -43,6 +57,7 @@ export {
   css,
   docker,
   figma,
+  mui,
   git,
   html,
   javascript,
@@ -52,6 +67,7 @@ export {
   redux,
   tailwind,
   typescript,
+  Chatrata,
   threejs,
   meta,
   shopify,
@@ -61,4 +77,8 @@ export {
   jobit,
   tripguide,
   verified,
+  dartil,
+  HIT,
+  Digialpha,
+  graphql,
 };

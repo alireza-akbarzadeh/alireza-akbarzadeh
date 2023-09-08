@@ -11,6 +11,7 @@ import { styles } from "../styles";
 import { experiences } from "../constants";
 import { SectionWrapper } from "../hoc";
 import { textVariant } from "../utils/motion";
+import { ReadMore } from "../components";
 
 const ExperienceCard = ({ experience }) => {
   return (
@@ -23,30 +24,41 @@ const ExperienceCard = ({ experience }) => {
       date={experience.date}
       iconStyle={{ background: experience.iconBg }}
       icon={
-        <div className='flex justify-center items-center w-full h-full'>
+        <div className="flex justify-center items-center w-full h-full">
           <img
             src={experience.icon}
             alt={experience.company_name}
-            className='w-[60%] h-[60%] object-contain'
+            className="w-[70%] h-[70%] object-contain"
           />
         </div>
       }
     >
       <div>
-        <h3 className='text-white text-[24px] font-bold'>{experience.title}</h3>
+        <a
+          href={experience.link}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="cursor-pointer text-blue-400"
+        >
+          <h3 className="text-blue-400 text-[24px] font-bold">
+            {experience.title}
+          </h3>
+        </a>
         <p
-          className='text-secondary text-[16px] font-semibold'
+          className="text-secondary text-[19px] font-bold"
           style={{ margin: 0 }}
         >
           {experience.company_name}
         </p>
+        {experience.company_Description ? (
+          <ReadMore text={experience.company_Description} />
+        ) : null}
       </div>
-
-      <ul className='mt-5 list-disc ml-5 space-y-2'>
+      <ul className="mt-5 list-disc ml-5 space-y-2">
         {experience.points.map((point, index) => (
           <li
             key={`experience-point-${index}`}
-            className='text-white-100 text-[14px] pl-1 tracking-wider'
+            className="text-white-100 text-[14px] pl-1 tracking-wider"
           >
             {point}
           </li>
@@ -68,7 +80,7 @@ const Experience = () => {
         </h2>
       </motion.div>
 
-      <div className='mt-20 flex flex-col'>
+      <div className="mt-20 flex flex-col">
         <VerticalTimeline>
           {experiences.map((experience, index) => (
             <ExperienceCard
