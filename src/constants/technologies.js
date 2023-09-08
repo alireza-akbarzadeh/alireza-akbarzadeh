@@ -12,12 +12,12 @@ import {
   tailwind,
   threejs,
   typescript,
-  graphql,
-  reactNative,
   nextjs,
-  vue,
-  apollo,
-  mui,
+  // graphql,
+  // reactNative,
+  // vue,
+  // apollo,
+  // mui,
 } from "../assets";
 
 export const technologies = [
@@ -53,30 +53,30 @@ export const technologies = [
     name: "MongoDB",
     icon: mongodb,
   },
-  {
-    name: "Vue",
-    icon: vue,
-  },
-  {
-    name: "Graphql",
-    icon: graphql,
-  },
-  {
-    name: "Apollo",
-    icon: apollo,
-  },
-  {
-    name: "Redux Toolkit",
-    icon: redux,
-  },
+  // {
+  //   name: "Vue",
+  //   icon: vue,
+  // },
+  // {
+  //   name: "Graphql",
+  //   icon: graphql,
+  // },
+  // {
+  //   name: "Apollo",
+  //   icon: apollo,
+  // },
+  // {
+  //   name: "Redux Toolkit",
+  //   icon: redux,
+  // },
   {
     name: "Tailwind CSS",
     icon: tailwind,
   },
-  {
-    name: "mui",
-    icon: mui,
-  },
+  // {
+  //   name: "mui",
+  //   icon: mui,
+  // },
   {
     name: "Three JS",
     icon: threejs,
