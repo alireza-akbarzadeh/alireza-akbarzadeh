@@ -75,7 +75,8 @@
 
 <h2 align="left">📊 GitHub Stats</h2>
 
-![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=alireza-akbarzadeh&show_icons=true&theme=radical)
+![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=alireza-akbarzadeh&show_icons=true&theme=transparent)
+
 
 
 <div align="center">
