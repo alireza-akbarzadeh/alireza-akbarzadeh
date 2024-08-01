@@ -10,6 +10,8 @@
 
 <h2 align="left">💼 Skills</h2>
 
+![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=alireza-akbarzadeh&show_icons=true&theme=radical)
+
 <p align="left">
   Here are some of the tools and technologies in my developer toolkit:<br><br>
   - 💻 **Programming Languages:** HTML, CSS, JavaScript<br>
