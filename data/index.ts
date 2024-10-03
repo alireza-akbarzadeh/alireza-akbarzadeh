@@ -8,6 +8,16 @@ export const navItems = [
 export const gridItems = [
   {
     id: 1,
+    title: "I'm based in Tehran, Iran and open to remote work worldwide.",
+    description: "",
+    className: "lg:col-span-5 md:col-span-3 md:row-span-2",
+    imgClassName: "",
+    titleClassName: "justify-start",
+    img: "",
+    spareImg: "",
+  },
+  {
+    id: 2,
     title: "I prioritize client collaboration, fostering open communication ",
     description: "",
     className: "lg:col-span-3 md:col-span-6 md:row-span-4 lg:min-h-[60vh]",
@@ -16,16 +26,7 @@ export const gridItems = [
     img: "/b1.svg",
     spareImg: "",
   },
-  {
-    id: 2,
-    title: "I'm very flexible with time zone communications",
-    description: "",
-    className: "lg:col-span-2 md:col-span-3 md:row-span-2",
-    imgClassName: "",
-    titleClassName: "justify-start",
-    img: "",
-    spareImg: "",
-  },
+
   {
     id: 3,
     title: "My tech stack",
@@ -49,7 +50,7 @@ export const gridItems = [
 
   {
     id: 5,
-    title: "Currently building a JS Animation library",
+    title: "Currently im working on tapsi.shop",
     description: "The Inside Scoop",
     className: "md:col-span-3 md:row-span-2",
     imgClassName: "absolute right-0 bottom-0 md:w-96 w-60",
