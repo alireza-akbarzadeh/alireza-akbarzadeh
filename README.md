@@ -10,11 +10,12 @@
 
 <h2 align="left">💼 Skills</h2>
 
+
 <p align="left">
   Here are some of the tools and technologies in my developer toolkit:<br><br>
   - 💻 **Programming Languages:** HTML, CSS, JavaScript<br>
   - ⚛️ **Frontend Frameworks/Libraries:** React, Next.js, Vue.js<br>
-  - 🎨 **UI/UX Design:** Wireframing, Prototyping, User Testing<br>
+  - 🎨 **UI/UX Design:** Wireframe, Prototyping, User Testing<br>
   - 🌐 **Responsive Web Design:** MUi, Tailwind CSS, CSS Grid, Flexbox<br>
   - 📦 **Version Control:** Git, GitHub, Gitlab, Azure DevOps<br>
   - 🛠️ **Build Tools:** Webpack, Gulp, Grunt, Parcel<br>
@@ -29,7 +30,7 @@
 
 <div align="left">
   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" height="30" alt="javascript logo"  />
-  <img width="12" />
+  <img width="12"  alt="shad"  src="k"/>
   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" height="30" alt="typescript logo"  />
   <img width="12" />
   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" height="30" alt="react logo"  />
