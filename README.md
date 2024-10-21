@@ -14,7 +14,7 @@
   Here are some of the tools and technologies in my developer toolkit:<br><br>
   - 💻 **Programming Languages:** HTML, CSS, JavaScript<br>
   - ⚛️ **Frontend Frameworks/Libraries:** React, Next.js, Vue.js<br>
-  - 🎨 **UI/UX Design:** Wireframing, Prototyping, User Testing<br>
+  - 🎨 **UI/UX Design:** Wireframinggg, Prototyping, User Testing<br>
   - 🌐 **Responsive Web Design:** MUi, Tailwind CSS, CSS Grid, Flexbox<br>
   - 📦 **Version Control:** Git, GitHub, Gitlab, Azure DevOps<br>
   - 🛠️ **Build Tools:** Webpack, Gulp, Grunt, Parcel<br>
