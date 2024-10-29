@@ -68,8 +68,7 @@ Hello! 👋 I’m Alireza Akbarzadeh, a seasoned Frontend Developer with over si
   <li>📊 [Data Dashboard](https://github.com/alireza-akbarzadeh/data-dashboard) - A responsive, real-time data visualization tool</li>
 </ul>
 
-<h2 align="left">🎉 Fun Fact</h2>
-<p>When I'm not coding, I enjoy playing viedo games , which keeps me refreshed and inspired.</p>
+<h2 align="left">🌟 Beyond the Code</h2> <p>When I'm not coding, you'll find me immersed in epic video games, catching up on the latest films, or hitting the gym for a workout. Beyond these, I'm always on the lookout for cutting-edge technologies and learning opportunities to stay at the forefront of front-end development.</p>
 
 <h2 align="left">📫 Contact Me</h2>
 
