@@ -62,13 +62,10 @@ Hello! 👋 I’m Alireza Akbarzadeh, a seasoned Frontend Developer with over si
 ![GitHub Streak](https://github-readme-streak-stats.herokuapp.com/?user=alireza-akbarzadeh&theme=transparent)
 ![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=alireza-akbarzadeh&layout=compact&theme=transparent)
 
-<h2 align="left">🛠️ Projects</h2>
-<ul>
-  <li>🌍 [E-commerce App](https://github.com/alireza-akbarzadeh/ecommerce) - A scalable, feature-rich e-commerce application</li>
-  <li>📊 [Data Dashboard](https://github.com/alireza-akbarzadeh/data-dashboard) - A responsive, real-time data visualization tool</li>
-</ul>
+<h2 align="left">💡 Fun Fact</h2> <p>If coding bugs had frequent flyer miles, I’d have a free trip around the world by now! 🐛✈️</p>
 
 <h2 align="left">🌟 Beyond the Code</h2> <p>When I'm not coding, you'll find me immersed in epic video games, catching up on the latest films, or hitting the gym for a workout. Beyond these, I'm always on the lookout for cutting-edge technologies and learning opportunities to stay at the forefront of front-end development.</p>
+
 
 <h2 align="left">📫 Contact Me</h2>
 
