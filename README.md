@@ -29,7 +29,7 @@ Hello! 👋 I’m Alireza Akbarzadeh, a seasoned Frontend Developer with over si
 <ul>
   <li>👨‍🏫 **Mentor:** Guided junior developers and contributed to open-source projects</li>
   <li>🌐 **Projects:** Developed several high-performance applications for large-scale clients</li>
-  <li>🏆 **Certified:** Google Web Developer Certification, etc.</li>
+  <li>🏆 **Certified:** Meta Frontend Developer Certification, etc.</li>
 </ul>
 
 <h2 align="left">🛠️ Tech Stack</h2>
