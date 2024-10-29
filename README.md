@@ -69,7 +69,7 @@ Hello! 👋 I’m Alireza Akbarzadeh, a seasoned Frontend Developer with over si
 </ul>
 
 <h2 align="left">🎉 Fun Fact</h2>
-<p>When I'm not coding, I enjoy [your hobby here], which keeps me refreshed and inspired.</p>
+<p>When I'm not coding, I enjoy playing viedo games , which keeps me refreshed and inspired.</p>
 
 <h2 align="left">📫 Contact Me</h2>
 
