@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
@@ -6,18 +8,16 @@ import { CanvasRevealEffect } from "./ui/CanvasRevealEffect";
 const Approach = () => {
   return (
     <section className="w-full py-20">
-      <h1 className="heading">
-        My <span className="text-purple">approach</span>
-      </h1>
-      {/* remove bg-white dark:bg-black */}
+      <h2 className="heading">
+        How I <span className="text-purple">work</span>
+      </h2>
       <div className="my-20 flex flex-col lg:flex-row items-center justify-center w-full gap-4">
-        {/* add des prop */}
         <Card
-          title="Planning & Strategy"
-          icon={<AceternityIcon order="Phase 1" />}
-          des="We'll collaborate to map out your website's goals, target audience, 
-          and key functionalities. We'll discuss things like site structure, 
-          navigation, and content requirements."
+          title="Boundaries first"
+          icon={<AceternityIcon order="01" />}
+          des="Before features, I decide where state lives, where the module
+          boundaries are, and how data flows across them. Most frontend pain a
+          year in traces back to a boundary nobody drew on day one."
         >
           <CanvasRevealEffect
             animationSpeed={5.1}
@@ -26,11 +26,11 @@ const Approach = () => {
           />
         </Card>
         <Card
-          title="Development & Progress Update"
-          icon={<AceternityIcon order="Phase 2" />}
-          des="Once we agree on the plan, I cue my lofi playlist and dive into
-          coding. From initial sketches to polished code, I keep you updated
-          every step of the way."
+          title="Standards over heroics"
+          icon={<AceternityIcon order="02" />}
+          des="Typed API contracts, a documented design system, lint and CI
+          gates, error boundaries, production error monitoring. Unglamorous
+          work that decides whether the next engineer ships safely."
         >
           <CanvasRevealEffect
             animationSpeed={3}
@@ -48,11 +48,11 @@ const Approach = () => {
           {/* <div className="absolute inset-0 [mask-image:radial-gradient(400px_at_center,white,transparent)] bg-black/50 dark:bg-black/90" /> */}
         </Card>
         <Card
-          title="Development & Launch"
-          icon={<AceternityIcon order="Phase 3" />}
-          des="This is where the magic happens! Based on the approved design, 
-          I'll translate everything into functional code, building your website
-          from the ground up."
+          title="Measure, then claim"
+          icon={<AceternityIcon order="03" />}
+          des="Rendering strategy, bundle analysis and Core Web Vitals against
+          real numbers, not vibes. If I say performance improved 30%, there's a
+          before and after behind it."
         >
           <CanvasRevealEffect
             animationSpeed={3}
