@@ -1,82 +1,54 @@
-<h2 align="left">👨‍💻 Frontend Developer | 🚀 Passionate about Crafting Beautiful, Efficient Code</h2>
+## Alireza Akbarzadeh
 
-<img align="right" height="150" src="https://your-new-image-url.com" alt="Your Image" />
+Senior Frontend Engineer in Tehran. Six years in production web platforms — the
+last four owning frontend architecture for [Tapsi Shop](https://tapsi.shop), a
+high-traffic e-commerce platform.
 
-<h2 align="left">🚀 About Me</h2>
+I work at the level of structure rather than screens: module boundaries, state
+ownership, rendering strategy, and the standards that keep a growing codebase fast
+to change. Most of what I care about shows up six months later — whether a new
+feature takes a day or a week, whether the design system holds or drifts, whether
+p75 LCP survives the next release.
 
-<p align="left">
-Hello! 👋 I’m Alireza Akbarzadeh, a seasoned Frontend Developer with over six years of expertise in delivering polished, high-performance web applications. My work centers around crafting seamless user experiences and visually engaging interfaces that not only meet but exceed user expectations. With a refined sense of UI/UX design and a sharp focus on performance optimization, I bring a mix of creativity, technical depth, and strategic thinking to every project. I'm committed to building responsive, accessible, and future-proof web applications that stand out in the digital landscape.
-</p>
+### What that looks like in practice
 
-<h2 align="left">💼 Skills</h2>
+- A Feature-Sliced Design module structure across a storefront, an admin panel and
+  a vendor panel, with explicit boundaries for state ownership and data flow — so
+  three teams can work in parallel without stepping on each other.
+- ~30% better Core Web Vitals and load performance from a deliberate SSR/SSG and
+  caching strategy, bundle analysis, and image optimization.
+- A Storybook-documented design system built on design tokens, shared across three
+  products — roughly 20% faster feature delivery, and UI drift between panels
+  stopped.
+- The unglamorous standards: typed API contracts, lint and CI gates, error
+  boundaries, production error monitoring. Production bugs down ~20%.
 
-<p align="left">
-  Here are some of the tools and technologies in my developer toolkit:<br><br>
-  - 💻 **Programming Languages:** HTML, CSS, JavaScript, TypeScript<br>
-  - ⚛️ **Frontend Frameworks/Libraries:** React, Next.js, Vue.js<br>
-  - 🎨 **UI/UX Design:** Wireframe, Prototyping, User Testing<br>
-  - 🌐 **Responsive Web Design:** MUi, Tailwind CSS, CSS Grid, Flexbox<br>
-  - 📦 **Version Control:** Git, GitHub, Gitlab, Azure DevOps<br>
-  - 🛠️ **Build Tools:** Webpack, Gulp, Grunt, Parcel<br>
-  - 🧪 **Testing and Debugging:** Chrome DevTools, Jest, vitest, react-testing-library<br>
-  - 🌐 **Cross-Browser Compatibility:** Babel, Autoprefixer, BrowserStack<br>
-  - ⚡ **Performance Optimization:** PageSpeed Insights, Lighthouse, Web Vitals<br>
-  - 🌐 **Frontend Infrastructure:** CDN, Contentful, GraphQL<br>
-  - 🛡️ **Security:** OWASP, Content Security Policy (CSP)
-</p>
+### Selected work
 
-<h2 align="left">✨ Highlights</h2>
-<ul>
-  <li>👨‍🏫 **Mentor:** Guided junior developers and contributed to open-source projects</li>
-  <li>🌐 **Projects:** Developed several high-performance applications for large-scale clients</li>
-  <li>🏆 **Certified:** Meta Frontend Developer Certification, etc.</li>
-</ul>
+| Project | What it is |
+|---|---|
+| **[NovaStudio](https://github.com/alireza-akbarzadeh/NovaStudio)** | AI-native collaborative IDE in the browser — a Monaco workspace running real Node via WebContainers, a full git loop with GitHub clone and publish, live multiplayer editing (Liveblocks + Yjs), and AI chat grounded in the open files and project tree. Next.js 16, React 19, Convex, Vercel AI SDK. |
+| **[Stramify](https://github.com/alireza-akbarzadeh/stramify-vue)** | A Twitch/YouTube-style streaming platform built architecture-first: Nuxt 4, Postgres + Drizzle, session auth with RBAC, WebSocket chat, a custom player. Every architectural decision is written down as an [ADR](https://github.com/alireza-akbarzadeh/stramify-vue/blob/master/docs/DECISIONS.md) — including the rejected alternatives. [Live →](https://stramify.vercel.app) |
+| **[react-launchpad](https://github.com/alireza-akbarzadeh/react-launchpad)** | An opinionated React starter kit. The opinions are the point; the README explains why each default is there. |
+| **[frontend-handbook](https://github.com/alireza-akbarzadeh/frontend-handbook)** | A guide to modern frontend development — what I'd want a mid-level engineer on my team to have read. |
 
-<h2 align="left">🛠️ Tech Stack</h2>
-<div align="left">
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" height="30" alt="JavaScript" title="JavaScript"/>
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" height="30" alt="TypeScript" title="TypeScript"/>
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" height="30" alt="React" title="React"/>
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg" height="30" alt="Next.js" title="Next.js"/>
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" height="30" alt="HTML5" title="HTML5"/>
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" height="30" alt="CSS3" title="CSS3"/>
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-original.svg" height="30" alt="Vue.js" title="Vue.js"/>
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/babel/babel-original.svg" height="30" alt="Babel" title="Babel"/>
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-original.svg" height="30" alt="Bootstrap" title="Bootstrap"/>
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" height="30" alt="Docker" title="Docker"/>
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/eslint/eslint-original.svg" height="30" alt="ESLint" title="ESLint"/>
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/yarn/yarn-original.svg" height="30" alt="Yarn" title="Yarn"/>
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/webpack/webpack-original.svg" height="30" alt="Webpack" title="Webpack"/>
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg" height="30" alt="VSCode" title="VSCode"/>
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/materialui/materialui-original.svg" height="30" alt="Material UI" title="Material UI"/>
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original-wordmark.svg" height="30" alt="Tailwind CSS" title="Tailwind CSS"/>
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/chrome/chrome-original.svg" height="30" alt="Chrome DevTools" title="Chrome DevTools"/>
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/gitlab/gitlab-original.svg" height="30" alt="GitLab" title="GitLab"/>
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" height="30" alt="Git" title="Git"/>
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" height="30" alt="GitHub" title="GitHub"/>
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/azure/azure-original.svg" height="30" alt="Azure" title="Azure DevOps"/>
-</div>
+### Stack
 
-<h2 align="left">📊 GitHub Stats</h2>
+**Daily:** TypeScript · React · Next.js (App Router, RSC, streaming, caching) ·
+TanStack Query · Tailwind · shadcn/ui · Zod · Vitest / Playwright
 
-![GitHub Streak](https://github-readme-streak-stats.herokuapp.com/?user=alireza-akbarzadeh&theme=transparent)
-![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=alireza-akbarzadeh&layout=compact&theme=transparent)
+**Also work in:** Vue 3 / Nuxt · React Native · Node · Postgres + Drizzle ·
+Nx / Turborepo · Docker · GitHub Actions
 
-<h2 align="left">💡 Fun Fact</h2> <p>If coding bugs had frequent flyer miles, I’d have a free trip around the world by now! 🐛✈️</p>
+**AI:** Claude and LLM APIs in daily development and shipped in product features.
 
-<h2 align="left">🌟 Beyond the Code</h2> <p>When I'm not coding, you'll find me immersed in epic video games, catching up on the latest films, or hitting the gym for a workout. Beyond these, I'm always on the lookout for cutting-edge technologies and learning opportunities to stay at the forefront of front-end development.</p>
+### Currently
 
+Building NovaStudio, and writing up what I learned running a design system across
+three products.
 
-<h2 align="left">📫 Contact Me</h2>
+### Elsewhere
 
-<div align="left">
-  <a href="https://www.linkedin.com/in/alireza-akbarzadeh/" target="_blank">
-    <img src="https://img.shields.io/static/v1?message=LinkedIn&logo=linkedin&label=&color=0077B5&logoColor=white&labelColor=&style=for-the-badge" height="35" alt="LinkedIn logo" />
-  </a>
-  <a href="https://t.me/Alireza_Akbarzadeh_dev" target="_blank">
-    <img src="https://img.shields.io/static/v1?message=Telegram&logo=telegram&label=&color=2CA5E0&logoColor=white&labelColor=&style=for-the-badge" height="35" alt="Telegram logo" />
-  </a>
-  <a href="mailto:Alireza.Akbarzadeh.dev@gmail.com">
-    <img src="https://img.shields.io/static/v1?message=Gmail&logo=gmail&label=&color=D14836&logoColor=white&labelColor=&style=for-the-badge" height="35" alt="Gmail logo" />
-  </a>
-</div>
+[LinkedIn](https://www.linkedin.com/in/alireza-akbarzadeh/) ·
+[X](https://twitter.com/AAkbarzadehDev) ·
+work.alireza.akbarzadeh@gmail.com
