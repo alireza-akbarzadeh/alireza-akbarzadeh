@@ -26,10 +26,13 @@ const HeroCanvas = () => {
   // and frame budget there than the effect is worth.
   if (isNarrow && isCoarse) return null;
 
+  // Masked off-centre to the right: the headline is left-aligned, so the field
+  // sits beside the type rather than behind it, at 50% opacity so it never
+  // competes with the LCP element for attention.
   return (
     <div
       aria-hidden="true"
-      className="pointer-events-none absolute inset-0 z-0 opacity-70 [mask-image:radial-gradient(ellipse_at_center,black_35%,transparent_78%)]"
+      className="pointer-events-none absolute inset-0 -z-10 opacity-50 [mask-image:radial-gradient(ellipse_at_72%_45%,black_18%,transparent_72%)]"
     >
       <HeroScene density={isNarrow ? 64 : 96} animate={!reducedMotion} />
     </div>

@@ -1,38 +1,48 @@
 import { caseStudy } from "@/data";
+import { cn } from "@/lib/utils";
 import Reveal from "./ui/Reveal";
+import Section from "./ui/Section";
 
-const CaseStudy = () => {
-  return (
-    <section id="case-study" className="py-20">
-      <Reveal className="max-w-3xl">
-        <p className="text-xs uppercase tracking-widest text-purple">
-          {caseStudy.eyebrow}
-        </p>
-        <h2 className="mt-4 text-3xl font-bold leading-tight md:text-4xl lg:text-5xl">
-          {caseStudy.title}
-        </h2>
-        <p className="mt-6 text-sm leading-relaxed text-white-200 md:text-base">
-          {caseStudy.context}
-        </p>
-      </Reveal>
+const CaseStudy = () => (
+  <Section
+    id="case-study"
+    eyebrow={caseStudy.eyebrow}
+    title={caseStudy.title}
+    lede={caseStudy.context}
+  >
+    {/* No screenshot here by design. The only asset available (public/tapsi.png)
+        is a full-page capture of a marketing banner — cropped to any sensible
+        aspect it shows a promo graphic, not the architecture this section
+        argues for, and its bright fill fights the palette. An architecture
+        diagram or a capture of the admin/vendor panels would earn the space;
+        a storefront promo does not. */}
 
-      <Reveal stagger className="mt-14 grid gap-px overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.06] md:grid-cols-2">
-        {caseStudy.sections.map((section) => (
-          <article key={section.id} className="bg-black-100 p-6 md:p-8">
-            <h3 className="flex items-center gap-3 text-sm font-semibold uppercase tracking-widest text-purple">
-              <span className="text-white/25">
+    {/* A 1px hairline grid: the gap itself is the border, so four panels read as
+        one object rather than four separate cards. */}
+    <Reveal
+      stagger
+      className="grid gap-px overflow-hidden rounded-card border border-hairline bg-hairline md:grid-cols-2"
+    >
+      {caseStudy.sections.map((section) => {
+        const isResult = section.label === "Result";
+        return (
+          <article key={section.id} className="bg-canvas-elevated p-6 md:p-8">
+            <h3 className="flex items-center gap-3 font-mono text-mono-eyebrow uppercase tracking-widest">
+              <span aria-hidden="true" className="tabular-nums text-faint">
                 {String(section.id).padStart(2, "0")}
               </span>
-              {section.label}
+              <span className={cn(isResult ? "text-accent-brand" : "text-mute")}>
+                {section.label}
+              </span>
             </h3>
-            <p className="mt-4 text-sm leading-relaxed text-white-200">
+            <p className="mt-4 text-body-md leading-relaxed text-body">
               {section.body}
             </p>
           </article>
-        ))}
-      </Reveal>
-    </section>
-  );
-};
+        );
+      })}
+    </Reveal>
+  </Section>
+);
 
 export default CaseStudy;

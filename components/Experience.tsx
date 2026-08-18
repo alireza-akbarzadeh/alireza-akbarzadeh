@@ -1,49 +1,50 @@
-import React from "react";
-
 import { workExperience } from "@/data";
-import { Button } from "./ui/MovingBorders";
+import { cn } from "@/lib/utils";
+import Reveal from "./ui/Reveal";
+import Section from "./ui/Section";
 
-const Experience = () => {
-  return (
-    <section id="experience" className="py-20 w-full">
-      <h2 className="heading">
-        Work <span className="text-purple">experience</span>
-      </h2>
-
-      <div className="w-full mt-12 grid lg:grid-cols-2 grid-cols-1 gap-10">
-        {workExperience.map((card) => (
-          <Button
-            key={card.id}
-            duration={Math.floor(Math.random() * 10000) + 10000}
-            borderRadius="1.75rem"
-            style={{
-              background: "rgb(4,7,29)",
-              backgroundColor:
-                "linear-gradient(90deg, rgba(4,7,29,1) 0%, rgba(12,14,35,1) 100%)",
-              borderRadius: `calc(1.75rem* 0.96)`,
-            }}
-            className="flex-1 text-black dark:text-white border-neutral-200 dark:border-slate-800"
+/**
+ * A timeline rather than cards: roles are sequential, and a spine communicates
+ * that ordering for free. This also replaced a decorative animated-border card
+ * whose duration was seeded with Math.random() during render — a hydration
+ * mismatch waiting to happen, since server and client produced different values.
+ */
+const Experience = () => (
+  <Section id="experience" eyebrow="Experience" title="Where I've done the work">
+    <Reveal stagger as="ol" className="border-l border-hairline">
+      {workExperience.map((role) => {
+        const isCurrent = role.period.includes("Present");
+        return (
+          <li
+            key={role.id}
+            className="relative grid gap-x-10 gap-y-3 pb-14 pl-8 last:pb-0 md:grid-cols-[11rem_minmax(0,1fr)] md:pl-12"
           >
-            <div className="flex flex-col p-3 py-6 md:p-5 lg:p-10 gap-2 text-start">
-              <p className="text-xs uppercase tracking-widest text-purple">
-                {card.period}
-              </p>
-              <h3 className="text-xl md:text-2xl font-bold">
-                {card.title}
-                <span className="text-white-200 font-normal">
-                  {" "}
-                  — {card.company}
-                </span>
+            <span
+              aria-hidden="true"
+              className={cn(
+                "absolute left-0 top-2 h-2 w-2 -translate-x-1/2 rounded-full ring-4 ring-canvas",
+                isCurrent ? "bg-accent-brand" : "bg-faint"
+              )}
+            />
+
+            <p className="font-mono text-mono-eyebrow uppercase tracking-widest text-mute md:pt-1">
+              {role.period}
+            </p>
+
+            <div>
+              <h3 className="text-heading-md text-ink">
+                {role.title}
+                <span className="font-normal text-mute"> · {role.company}</span>
               </h3>
-              <p className="text-white-100 mt-2 text-sm md:text-base leading-relaxed">
-                {card.desc}
+              <p className="mt-3 max-w-2xl text-body-md leading-relaxed text-body">
+                {role.desc}
               </p>
             </div>
-          </Button>
-        ))}
-      </div>
-    </section>
-  );
-};
+          </li>
+        );
+      })}
+    </Reveal>
+  </Section>
+);
 
 export default Experience;

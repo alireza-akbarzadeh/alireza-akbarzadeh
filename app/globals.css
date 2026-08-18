@@ -126,18 +126,26 @@
 
 @layer base {
   * {
-    @apply border-border !scroll-smooth;
+    @apply border-border;
   }
-  body {
-    @apply bg-background text-foreground;
-  }
-  button {
-    @apply active:outline-none;
-  }
-}
 
-@layer utilities {
-  .heading {
-    @apply font-bold text-4xl md:text-5xl text-center;
+  html {
+    @apply scroll-smooth;
+  }
+
+  /* Anchor jumps and the scroll-smooth above are motion the OS setting should
+     be able to turn off. */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  body {
+    @apply bg-canvas text-body antialiased;
+  }
+
+  ::selection {
+    @apply bg-accent-brand/25 text-ink;
   }
 }

@@ -2,6 +2,8 @@
 
 import { useEffect } from "react";
 
+import { Button, button } from "@/components/ui/Button";
+
 export default function Error({
   error,
   reset,
@@ -14,26 +16,22 @@ export default function Error({
   }, [error]);
 
   return (
-    <main className="bg-black-100 min-h-screen flex flex-col items-center justify-center gap-6 px-6 text-center">
-      <p className="text-xs uppercase tracking-widest text-purple">Error</p>
-      <h1 className="text-3xl md:text-4xl font-bold text-white max-w-xl">
+    <main className="flex min-h-screen flex-col items-center justify-center gap-5 px-6 text-center">
+      <p className="font-mono text-mono-eyebrow uppercase tracking-widest text-mute">
+        Error
+      </p>
+      <h1 className="max-w-xl text-3xl font-semibold tracking-tight text-ink md:text-heading-lg">
         Something broke on this page.
       </h1>
-      <p className="text-white-200 max-w-md">
+      <p className="max-w-md text-body-md leading-relaxed text-body">
         This one is on me, not you. Try again — if it keeps happening, the rest
         of the site still works.
       </p>
-      <div className="flex flex-wrap items-center justify-center gap-4">
-        <button
-          onClick={reset}
-          className="rounded-lg border border-white/20 bg-black-200 px-5 py-2.5 text-sm text-white transition-colors hover:border-purple focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple"
-        >
+      <div className="mt-2 flex flex-wrap items-center justify-center gap-3">
+        <Button onClick={reset} variant="primary" shape="pill">
           Try again
-        </button>
-        <a
-          href="/"
-          className="rounded-lg px-5 py-2.5 text-sm text-white-200 underline underline-offset-4 transition-colors hover:text-white"
-        >
+        </Button>
+        <a href="/" className={button({ variant: "secondary", shape: "pill" })}>
           Back home
         </a>
       </div>

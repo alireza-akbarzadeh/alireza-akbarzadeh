@@ -6,6 +6,13 @@ export const navItems = [
   { name: "Contact", link: "#contact" },
 ];
 
+/** Recruiter-scannable proof points, shown under the hero CTAs. */
+export const heroFacts = [
+  { value: "6 yrs", label: "in production web platforms" },
+  { value: "3 products", label: "on one shared design system" },
+  { value: "~30%", label: "faster Core Web Vitals" },
+];
+
 export const principles = [
   {
     id: 1,
@@ -189,7 +196,8 @@ export const workExperience: WorkExperience[] = [
 
 export type SocialLink = {
   id: number;
-  img: string;
+  /** Keyed to the lucide icon map in components/Footer.tsx. */
+  icon: "github" | "x" | "linkedin";
   label: string;
   href: string;
 };
@@ -197,19 +205,19 @@ export type SocialLink = {
 export const socialMedia: SocialLink[] = [
   {
     id: 1,
-    img: "/git.svg",
+    icon: "github",
     label: "GitHub",
     href: "https://github.com/alireza-akbarzadeh",
   },
   {
     id: 2,
-    img: "/twit.svg",
+    icon: "x",
     label: "X",
     href: "https://twitter.com/AAkbarzadehDev",
   },
   {
     id: 3,
-    img: "/link.svg",
+    icon: "linkedin",
     label: "LinkedIn",
     href: "https://www.linkedin.com/in/alireza-akbarzadeh/",
   },

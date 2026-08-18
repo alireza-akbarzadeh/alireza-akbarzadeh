@@ -57,8 +57,11 @@ const fragmentShader = /* glsl */ `
     // fade the field out toward the edges so it dissolves instead of ending
     alpha *= smoothstep(11.0, 3.5, vDistance);
 
-    vec3 color = mix(uColorLow, uColorHigh, smoothstep(-1.0, 1.6, vElevation));
-    gl_FragColor = vec4(color, alpha * 0.85);
+    // Amber is reserved for the crests: the field reads as neutral structure
+    // with the accent surfacing only where the wave peaks, rather than as a
+    // wash of brand colour. See DESIGN.md → "one chromatic token".
+    vec3 color = mix(uColorLow, uColorHigh, smoothstep(0.25, 1.8, vElevation));
+    gl_FragColor = vec4(color, alpha * 0.6);
   }
 `;
 
@@ -86,8 +89,10 @@ function ParticleField({ count, animate }: FieldProps) {
       uTime: { value: 0 },
       uPointer: { value: new THREE.Vector2(0, 0) },
       uSize: { value: 2.6 },
-      uColorLow: { value: new THREE.Color("#3d3a7a") },
-      uColorHigh: { value: new THREE.Color("#CBACF9") },
+      // Neutral base, amber crest — the ink scale and the single accent from
+      // the design system, not a second palette.
+      uColorLow: { value: new THREE.Color("#3f3f46") },
+      uColorHigh: { value: new THREE.Color("#F2A93C") },
     }),
     []
   );

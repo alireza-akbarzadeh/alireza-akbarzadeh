@@ -1,43 +1,40 @@
 import { stackGroups } from "@/data";
 import Reveal from "./ui/Reveal";
+import Section from "./ui/Section";
+import Tag from "./ui/Tag";
 
-const Stack = () => {
-  return (
-    <section id="stack" className="py-20">
-      <Reveal>
-        <h2 className="heading">
-          What I <span className="text-purple">work with</span>
-        </h2>
-      </Reveal>
+/**
+ * Grouped by how I actually use each tool — not a wall of logos. The group note
+ * is the honest part: "shipped production code in all of these" says something
+ * a logo grid cannot.
+ */
+const Stack = () => (
+  <Section
+    id="stack"
+    eyebrow="Stack"
+    title="What I work with, and how often"
+    lede="Grouped by real usage rather than by category, so the list says something about depth instead of breadth."
+  >
+    <Reveal stagger className="grid gap-5 md:grid-cols-2">
+      {stackGroups.map((group) => (
+        <article
+          key={group.id}
+          className="rounded-card border border-hairline bg-canvas-elevated p-6 md:p-8"
+        >
+          <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+            <h3 className="text-heading-md text-ink">{group.label}</h3>
+            <p className="text-body-sm text-mute">{group.note}</p>
+          </div>
 
-      <Reveal stagger className="mt-14 grid gap-6 md:grid-cols-2">
-        {stackGroups.map((group) => (
-          <article
-            key={group.id}
-            className="rounded-2xl border border-white/[0.08] bg-black-200/40 p-6 md:p-8"
-          >
-            <div className="flex flex-wrap items-baseline justify-between gap-2">
-              <h3 className="text-lg font-semibold text-white">
-                {group.label}
-              </h3>
-              <p className="text-xs text-white-200/70">{group.note}</p>
-            </div>
-
-            <ul className="mt-5 flex flex-wrap gap-2">
-              {group.items.map((item) => (
-                <li
-                  key={item}
-                  className="rounded-full border border-white/[0.12] bg-black-100 px-3 py-1.5 text-xs text-white-200"
-                >
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </article>
-        ))}
-      </Reveal>
-    </section>
-  );
-};
+          <ul className="mt-6 flex flex-wrap gap-2">
+            {group.items.map((item) => (
+              <Tag key={item}>{item}</Tag>
+            ))}
+          </ul>
+        </article>
+      ))}
+    </Reveal>
+  </Section>
+);
 
 export default Stack;

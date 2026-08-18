@@ -3,29 +3,22 @@
 import { useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-import { FaLocationArrow } from "react-icons/fa6";
 
-import { contactEmail } from "@/data";
-import MagicButton from "./MagicButton";
+import { contactEmail, heroFacts } from "@/data";
+import { cn } from "@/lib/utils";
 import HeroCanvas from "./hero/HeroCanvas";
-import { Spotlight } from "./ui/Spotlight";
+import { button } from "./ui/Button";
 
 gsap.registerPlugin(useGSAP);
-
-const facts = [
-  { value: "6 yrs", label: "in production web platforms" },
-  { value: "3 products", label: "on one shared design system" },
-  { value: "~30%", label: "faster Core Web Vitals" },
-];
 
 const Hero = () => {
   const container = useRef<HTMLElement>(null);
 
   useGSAP(
     () => {
-      // Respect the OS setting: reveal everything, skip the choreography.
       const mm = gsap.matchMedia();
 
+      // Respect the OS setting: reveal everything, skip the choreography.
       mm.add("(prefers-reduced-motion: reduce)", () => {
         gsap.set("[data-animate]", { opacity: 1, y: 0, filter: "none" });
       });
@@ -42,7 +35,11 @@ const Hero = () => {
             "-=0.25"
           )
           .from("[data-animate='lede']", { opacity: 0, y: 20 }, "-=0.55")
-          .from("[data-animate='cta']", { opacity: 0, y: 18, stagger: 0.1 }, "-=0.6")
+          .from(
+            "[data-animate='cta']",
+            { opacity: 0, y: 18, stagger: 0.1 },
+            "-=0.6"
+          )
           .from(
             "[data-animate='fact']",
             { opacity: 0, y: 16, stagger: 0.08 },
@@ -56,93 +53,76 @@ const Hero = () => {
   );
 
   return (
-    <section ref={container} className="relative pb-20 pt-36" id="top">
+    <section
+      ref={container}
+      id="top"
+      className="relative isolate flex min-h-[92svh] items-center py-32 md:py-40"
+    >
       <HeroCanvas />
 
-      <div aria-hidden="true">
-        <Spotlight
-          className="-top-40 -left-10 md:-left-32 md:-top-20 h-screen"
-          fill="white"
-        />
-        <Spotlight
-          className="h-[80vh] w-[50vw] top-10 left-full"
-          fill="purple"
-        />
-        <Spotlight className="left-80 top-28 h-[80vh] w-[50vw]" fill="blue" />
-      </div>
+      <div className="relative z-10 w-full">
+        <p
+          data-animate="eyebrow"
+          className="text-mono-eyebrow font-mono uppercase tracking-widest text-mute"
+        >
+          Senior Frontend Engineer · Tehran
+        </p>
 
-      <div
-        className="absolute top-0 left-0 flex h-screen w-full items-center justify-center dark:bg-grid-white/[0.03] bg-grid-black-100/[0.2]"
-        aria-hidden="true"
-      >
-        <div className="pointer-events-none absolute inset-0 [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]" />
-      </div>
+        <h1 className="mt-6 max-w-4xl text-[2.5rem] font-semibold leading-[1.05] tracking-tighter text-ink sm:text-6xl lg:text-7xl">
+          <span data-animate="line" className="block">
+            I build frontends
+          </span>
+          <span data-animate="line" className="block">
+            that stay fast to change.
+          </span>
+        </h1>
 
-      <div className="relative z-10 my-20 flex justify-center">
-        <div className="flex max-w-[89vw] flex-col items-center justify-center md:max-w-3xl lg:max-w-[62vw]">
-          <p
-            data-animate="eyebrow"
-            className="max-w-80 text-center text-xs uppercase tracking-widest text-blue-100"
+        <p
+          data-animate="lede"
+          className="mt-8 max-w-2xl text-body-lg leading-relaxed text-body"
+        >
+          Six years in production web platforms — the last four owning frontend
+          architecture for a high-traffic e-commerce platform. Module
+          boundaries, state ownership, rendering strategy, and the standards
+          that keep a growing codebase maintainable.
+        </p>
+
+        <div className="mt-10 flex flex-wrap items-center gap-3">
+          <a
+            href="#projects"
+            data-animate="cta"
+            className={button({ variant: "primary", shape: "pill" })}
           >
-            Senior Frontend Engineer · Tehran
-          </p>
-
-          <h1 className="mt-4 text-center text-[40px] font-bold leading-[1.08] tracking-tight md:text-5xl lg:text-6xl">
-            <span data-animate="line" className="block">
-              I build frontends
-            </span>
-            <span data-animate="line" className="block">
-              that stay{" "}
-              <span className="bg-gradient-to-r from-purple to-[#7C6BF5] bg-clip-text text-transparent">
-                fast to change
-              </span>
-            </span>
-          </h1>
-
-          <p
-            data-animate="lede"
-            className="mb-2 mt-6 max-w-2xl text-center text-sm text-white-200 md:text-lg md:tracking-wider"
+            See my work
+          </a>
+          <a
+            href={`mailto:${contactEmail}`}
+            data-animate="cta"
+            className={button({ variant: "secondary", shape: "pill" })}
           >
-            Six years in production web platforms — the last four owning
-            frontend architecture for a high-traffic e-commerce platform. Module
-            boundaries, state ownership, rendering strategy, and the standards
-            that keep a growing codebase maintainable.
-          </p>
-
-          <div className="mt-6 flex flex-wrap items-center justify-center gap-4">
-            <a href="#projects" data-animate="cta">
-              <MagicButton
-                title="See my work"
-                icon={<FaLocationArrow />}
-                position="right"
-              />
-            </a>
-            <a
-              href={`mailto:${contactEmail}`}
-              data-animate="cta"
-              className="rounded-lg px-5 py-3 text-sm text-white-200 underline underline-offset-4 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple"
-            >
-              Get in touch
-            </a>
-          </div>
-
-          <dl className="mt-14 grid w-full max-w-2xl grid-cols-1 gap-6 sm:grid-cols-3">
-            {facts.map((fact) => (
-              <div
-                key={fact.value}
-                data-animate="fact"
-                className="text-center sm:text-left"
-              >
-                <dt className="text-2xl font-bold text-white md:text-3xl">
-                  {fact.value}
-                </dt>
-                <dd className="mt-1 text-xs leading-snug text-white-200">
-                  {fact.label}
-                </dd>
-              </div>
-            ))}
-          </dl>
+            Get in touch
+          </a>
         </div>
+
+        <dl className="mt-20 grid max-w-3xl grid-cols-1 border-t border-hairline sm:grid-cols-3">
+          {heroFacts.map((fact, index) => (
+            <div
+              key={fact.value}
+              data-animate="fact"
+              className={cn(
+                "py-6 sm:px-6 sm:first:pl-0",
+                index > 0 && "border-t border-hairline sm:border-l sm:border-t-0"
+              )}
+            >
+              <dt className="text-2xl font-semibold tracking-tight text-ink md:text-3xl">
+                {fact.value}
+              </dt>
+              <dd className="mt-2 text-body-sm leading-snug text-mute">
+                {fact.label}
+              </dd>
+            </div>
+          ))}
+        </dl>
       </div>
     </section>
   );
