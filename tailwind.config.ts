@@ -75,11 +75,81 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+
+        // Geist System tokens (hybrid) — see DESIGN.md. A single neutral
+        // ink/canvas/hairline scale plus one chromatic accent; structure
+        // follows the `geist-system` skill, accent is an original amber
+        // rather than Vercel's own link blue.
+        ink: "hsl(var(--ink))",
+        body: "hsl(var(--body-text))",
+        mute: "hsl(var(--mute))",
+        faint: "hsl(var(--faint))",
+        hairline: {
+          DEFAULT: "hsl(var(--hairline))",
+          soft: "hsl(var(--hairline-soft))",
+        },
+        canvas: {
+          DEFAULT: "hsl(var(--canvas))",
+          elevated: "hsl(var(--canvas-elevated))",
+        },
+        "accent-brand": {
+          DEFAULT: "hsl(var(--accent-brand))",
+          deep: "hsl(var(--accent-brand-deep))",
+          soft: "hsl(var(--accent-brand-soft))",
+          foreground: "hsl(var(--accent-brand-foreground))",
+        },
+      },
+      fontFamily: {
+        // Inter is already loaded via next/font/google in app/layout.tsx;
+        // mapping it here makes the `font-sans` utility agree with what's
+        // actually rendered. Mono uses the real system-mono stack so
+        // `font-mono` (eyebrows, tags, code) works with zero added
+        // dependencies — swap in the `geist` package's GeistMono later by
+        // editing this one line, no call-site changes.
+        sans: ["Inter", "Arial", "sans-serif"],
+        mono: [
+          "ui-monospace",
+          "SFMono-Regular",
+          "Menlo",
+          "Consolas",
+          "monospace",
+        ],
+      },
+      fontSize: {
+        // Geist type scale — size/leading/tracking/weight exactly as
+        // specified by the geist-system skill. Additive to Tailwind's
+        // default scale (text-sm, text-lg, … keep working unchanged).
+        "display-xl": ["48px", { lineHeight: "48px", letterSpacing: "-2.4px", fontWeight: "600" }],
+        "heading-lg": ["32px", { lineHeight: "40px", letterSpacing: "-1.28px", fontWeight: "600" }],
+        "heading-md": ["20px", { lineHeight: "28px", letterSpacing: "-0.4px", fontWeight: "600" }],
+        "label-sm": ["14px", { lineHeight: "20px", letterSpacing: "-0.28px", fontWeight: "500" }],
+        "mono-eyebrow": ["12px", { lineHeight: "16px", letterSpacing: "0px", fontWeight: "500" }],
+        "body-lg": ["16px", { lineHeight: "24px" }],
+        "body-md": ["14px", { lineHeight: "20px" }],
+        "body-sm": ["12px", { lineHeight: "16px" }],
+        "button-lg": ["16px", { lineHeight: "20px", fontWeight: "500" }],
+        "button-md": ["14px", { lineHeight: "20px", fontWeight: "500" }],
+        code: ["14px", { lineHeight: "20px" }],
+      },
+      boxShadow: {
+        // Theme-aware — see the --shadow-whisper/--shadow-floating vars in
+        // globals.css. Dark mode uses higher alpha; a black shadow is
+        // invisible against a near-black canvas.
+        whisper: "var(--shadow-whisper)",
+        floating: "var(--shadow-floating)",
       },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+        // Explicit Geist content-radius tokens (see DESIGN.md Shapes) —
+        // additive, distinct names so the --radius-driven lg/md/sm above
+        // stay untouched for whatever already depends on them.
+        button: "6px",
+        card: "12px",
+        panel: "16px",
+        "pill-category": "64px",
+        pill: "100px",
       },
       keyframes: {
         "accordion-down": {

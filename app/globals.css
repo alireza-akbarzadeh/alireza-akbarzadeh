@@ -2,67 +2,125 @@
 @tailwind components;
 @tailwind utilities;
 
+/**
+ * Design tokens — Geist System (hybrid), see DESIGN.md for the full spec.
+ *
+ * Structure (ink/canvas/hairline scale, type discipline, spacing, radius,
+ * elevation, bimodal button shapes) follows the `geist-system` skill
+ * exactly. Two deliberate deviations from the skill's literal Vercel
+ * palette, per project decision:
+ *   1. Dark is the flagship theme (matches next-themes defaultTheme="dark"
+ *      already set in app/layout.tsx) — light is a fully-specified second
+ *      theme, not the only one.
+ *   2. The accent is an original warm amber, not Vercel's own #0070f3
+ *      link blue, and the optional hero mesh uses original stops instead
+ *      of Vercel's literal cyan/blue/violet/magenta/amber recipe.
+ *
+ * Values are HSL triplets (no `hsl()` wrapper) to match this file's
+ * existing `hsl(var(--x))` consumption pattern in tailwind.config.ts.
+ */
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
+    --background: 0 0% 98%;
+    --foreground: 0 0% 9%;
 
     --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
+    --card-foreground: 0 0% 9%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
+    --popover-foreground: 0 0% 9%;
 
-    --primary: 240 5.9% 10%;
-    --primary-foreground: 0 0% 98%;
+    --primary: 0 0% 9%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
+    --secondary: 0 0% 95%;
+    --secondary-foreground: 0 0% 9%;
 
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
+    --muted: 0 0% 95%;
+    --muted-foreground: 0 0% 46%;
 
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
+    --accent: 0 0% 95%;
+    --accent-foreground: 0 0% 9%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive: 0 89% 47%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 240 10% 3.9%;
+    --border: 0 0% 92%;
+    --input: 0 0% 92%;
+    --ring: 0 0% 9%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
+
+    /* Geist ink/canvas/hairline scale (light) */
+    --ink: 0 0% 9%;
+    --body-text: 0 0% 30%;
+    --mute: 0 0% 56%;
+    --faint: 0 0% 63%;
+    --hairline: 0 0% 92%;
+    --hairline-soft: 0 0% 95%;
+    --canvas: 0 0% 98%;
+    --canvas-elevated: 0 0% 100%;
+
+    /* The one chromatic token in the system — original amber, not Vercel's blue */
+    --accent-brand: 36 90% 37%;
+    --accent-brand-deep: 36 88% 29%;
+    --accent-brand-soft: 41 93% 89%;
+    --accent-brand-foreground: 0 0% 100%;
+
+    /* Elevation — calibrated per theme; light matches the skill's literal values */
+    --shadow-whisper: 0px 1px 1px rgba(0, 0, 0, 0.04);
+    --shadow-floating: 0px 2px 2px rgba(0, 0, 0, 0.04), 0px 8px 16px -4px rgba(0, 0, 0, 0.08);
   }
 
   .dark {
-    --background: 240 10% 3.9%;
+    --background: 0 0% 4%;
     --foreground: 0 0% 98%;
 
-    --card: 240 10% 3.9%;
+    --card: 0 0% 7%;
     --card-foreground: 0 0% 98%;
 
-    --popover: 240 10% 3.9%;
+    --popover: 0 0% 7%;
     --popover-foreground: 0 0% 98%;
 
     --primary: 0 0% 98%;
-    --primary-foreground: 240 5.9% 10%;
+    --primary-foreground: 0 0% 4%;
 
-    --secondary: 240 3.7% 15.9%;
+    --secondary: 0 0% 12%;
     --secondary-foreground: 0 0% 98%;
 
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
+    --muted: 0 0% 12%;
+    --muted-foreground: 0 0% 56%;
 
-    --accent: 240 3.7% 15.9%;
+    --accent: 0 0% 14%;
     --accent-foreground: 0 0% 98%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
+    --border: 0 0% 16%;
+    --input: 0 0% 16%;
+    --ring: 0 0% 98%;
+
+    /* Geist ink/canvas/hairline scale (dark) */
+    --ink: 0 0% 98%;
+    --body-text: 0 0% 63%;
+    --mute: 0 0% 45%;
+    --faint: 0 0% 32%;
+    --hairline: 0 0% 16%;
+    --hairline-soft: 0 0% 12%;
+    --canvas: 0 0% 4%;
+    --canvas-elevated: 0 0% 7%;
+
+    --accent-brand: 36 87% 59%;
+    --accent-brand-deep: 36 90% 68%;
+    --accent-brand-soft: 34 56% 19%;
+    --accent-brand-foreground: 0 0% 9%;
+
+    /* Black shadows are invisible on a near-black canvas — dark mode needs
+       real alpha to register at all; this is the one place the two themes
+       diverge in value, not just base color. */
+    --shadow-whisper: 0px 1px 1px rgba(0, 0, 0, 0.4);
+    --shadow-floating: 0px 2px 2px rgba(0, 0, 0, 0.5), 0px 8px 16px -4px rgba(0, 0, 0, 0.6);
   }
 }
 
