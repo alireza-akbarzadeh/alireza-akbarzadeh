@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 
 import { contactEmail, navItems } from "@/data";
 import { cn } from "@/lib/utils";
@@ -21,6 +22,14 @@ const Nav = () => {
   const [active, setActive] = useState<string | null>(null);
   const navRef = useRef<HTMLElement>(null);
 
+  // The nav renders on project detail pages too, where the section anchors
+  // don't exist. Off the home page the links become root-relative so they
+  // navigate home and then jump, and the scroll spy is switched off entirely —
+  // otherwise a detail page's own headings light up unrelated nav items.
+  const pathname = usePathname();
+  const isHome = pathname === "/";
+  const hrefFor = (link: string) => (isHome ? link : `/${link}`);
+
   // Hairline + blur appear only once the page has moved, so the hero meets the
   // viewport edge cleanly on first paint.
   useEffect(() => {
@@ -34,6 +43,11 @@ const Nav = () => {
   // active item changes when a section reaches reading position, not when it
   // first peeks into view.
   useEffect(() => {
+    if (!isHome) {
+      setActive(null);
+      return;
+    }
+
     const ids = [
       ...navItems.map((item) => item.link.replace("#", "")),
       ...Object.keys(SECTION_ALIASES),
@@ -60,7 +74,7 @@ const Nav = () => {
 
     sections.forEach((section) => observer.observe(section));
     return () => observer.disconnect();
-  }, []);
+  }, [isHome]);
 
   // Dismiss the mobile menu on Escape or on a click outside it.
   useEffect(() => {
@@ -100,7 +114,7 @@ const Nav = () => {
         className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 sm:px-8"
       >
         <a
-          href="#top"
+          href={isHome ? "#top" : "/"}
           className="rounded-button text-label-sm font-semibold tracking-tight text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-brand focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
         >
           Alireza Akbarzadeh
@@ -113,7 +127,7 @@ const Nav = () => {
               return (
                 <li key={item.link}>
                   <a
-                    href={item.link}
+                    href={hrefFor(item.link)}
                     aria-current={isActive ? "true" : undefined}
                     className={cn(
                       "rounded-button px-3 py-2 text-label-sm transition-colors",
@@ -176,7 +190,7 @@ const Nav = () => {
             {navItems.map((item) => (
               <li key={item.link}>
                 <a
-                  href={item.link}
+                  href={hrefFor(item.link)}
                   onClick={() => setOpen(false)}
                   className={cn(
                     "block rounded-button px-2 py-3 text-label-sm transition-colors",
