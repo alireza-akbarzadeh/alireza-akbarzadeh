@@ -38,5 +38,4 @@ next-env.d.ts
 # Sentry Config File
 .sentryclirc
 
-# third-party agent skills (installed locally, not part of the site)
-.claude/skills/
+
