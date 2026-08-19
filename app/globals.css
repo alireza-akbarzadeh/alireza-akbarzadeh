@@ -284,3 +284,51 @@
     @apply bg-accent-brand/25 text-ink;
   }
 }
+
+/**
+ * Print rules.
+ *
+ * Scoped to @media print, so nothing here affects the screen experience.
+ *
+ * The important one is forcing a light surface regardless of the active theme:
+ * a visitor reading in dark mode who hits "Save as PDF" would otherwise get a
+ * near-black page that burns a print cartridge and reads badly on paper. A CV
+ * is ink on paper — that is not a theme, it is the medium.
+ */
+@media print {
+  :root,
+  .dark {
+    color-scheme: light;
+
+    --ink: 0 0% 0%;
+    --body-text: 0 0% 15%;
+    --mute: 0 0% 30%;
+    --faint: 0 0% 40%;
+    --hairline: 0 0% 80%;
+    --hairline-soft: 0 0% 88%;
+    --canvas: 0 0% 100%;
+    --canvas-elevated: 0 0% 100%;
+    --accent-brand: 0 0% 0%;
+  }
+
+  html,
+  body {
+    background: #fff !important;
+    /* Hairlines are drawn with borders, and browsers drop light backgrounds in
+       print by default — keep what the layout depends on. */
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  /* A heading stranded at the foot of a page is the most common print defect in
+     a long document, and a CV is read as a document. */
+  h1,
+  h2,
+  h3 {
+    break-after: avoid-page;
+  }
+
+  @page {
+    margin: 16mm;
+  }
+}

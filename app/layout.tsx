@@ -1,11 +1,14 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
+
+
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import "./globals.css";
 import { siteUrl } from "@/lib/site";
 import { ThemeProvider } from "./provider";
 
-const inter = Inter({ subsets: ["latin"], display: "swap" });
+const inter = { className: "font-sans" };
 
 const title = "Alireza Akbarzadeh — Senior Frontend Engineer";
 const description =
@@ -78,6 +81,25 @@ export default function RootLayout({
         >
           {children}
         </ThemeProvider>
+
+        {/*
+          Analytics answers the one question the portfolio cannot answer on its
+          own: which case study anyone actually reads. Without it there is no
+          signal for what to deepen next, and the roadmap is guesswork.
+
+          SpeedInsights reports field Core Web Vitals from real visitors. The
+          hero runs WebGL, which is the part most likely to regress quietly on
+          mid-range hardware, and a lab score on a fast machine will not catch
+          that.
+
+          Both are cookieless and collect no personal data, so no consent banner
+          is required — which is the reason for choosing these over an
+          analytics product that would need one on a personal site.
+
+          Neither runs in development, so local work is not counted.
+        */}
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

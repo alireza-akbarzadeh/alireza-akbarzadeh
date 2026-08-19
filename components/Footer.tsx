@@ -1,6 +1,8 @@
 import { IconBrandGithub, IconBrandLinkedin, IconBrandX } from "@tabler/icons-react";
 import type { TablerIcon } from "@tabler/icons-react";
 
+import Link from "next/link";
+
 import { socialMedia } from "@/data";
 import { button } from "./ui/Button";
 
@@ -19,9 +21,17 @@ const ICONS: Record<string, TablerIcon> = {
 const Footer = () => (
   <footer className="border-t border-hairline py-10">
     <div className="flex flex-col-reverse items-center justify-between gap-6 sm:flex-row">
-      <p className="text-body-sm text-mute">
-        © {new Date().getFullYear()} Alireza Akbarzadeh
-      </p>
+      <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+        <p className="text-body-sm text-mute">
+          © {new Date().getFullYear()} Alireza Akbarzadeh
+        </p>
+        <Link
+          href="/resume"
+          className="rounded-button text-body-sm text-mute underline decoration-hairline underline-offset-4 transition-colors hover:text-accent-brand focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-accent-brand focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
+        >
+          Résumé
+        </Link>
+      </div>
 
       <ul className="flex items-center gap-2">
         {socialMedia.map((social) => {
