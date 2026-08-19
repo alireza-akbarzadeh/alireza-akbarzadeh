@@ -7,6 +7,19 @@
  * Alireza can fill.
  */
 
+export type ArchitectureLayer = {
+  name: string;
+  note: string;
+  /** Highlight — the layer the case study is actually arguing about. */
+  shared?: boolean;
+};
+
+export type ArchitectureSpec = {
+  surfaces: { name: string; note: string }[];
+  layers: ArchitectureLayer[];
+  footnote?: string;
+};
+
 export type ProjectSection = {
   id: number;
   label: string;
@@ -16,6 +29,27 @@ export type ProjectSection = {
 export type ProjectLink = {
   label: string;
   href: string;
+};
+
+/**
+ * A real screenshot of the project.
+ *
+ * Optional on purpose: a project with no capture yet renders no image slot at
+ * all, rather than a placeholder. An empty space is honest; a grey box that
+ * says "screenshot coming" is not, and a stock image standing in for real work
+ * is actively misleading.
+ */
+export type ProjectShot = {
+  /** Path under /public, e.g. "/work/luxe/checkout.png". */
+  src: string;
+  /** Describe what the screen shows, not that it is a screenshot. */
+  alt: string;
+  /** Optional line under the image — say what it demonstrates. */
+  caption?: string;
+  width: number;
+  height: number;
+  /** Dark-theme variant, when the product has one worth showing. */
+  srcDark?: string;
 };
 
 export type Project = {
@@ -36,6 +70,10 @@ export type Project = {
   stackDetail: { group: string; items: string[] }[];
   links: ProjectLink[];
   sections: ProjectSection[];
+  /** Real captures only. Omit entirely until one exists. */
+  shots?: ProjectShot[];
+  /** Layer diagram, when the project's shape is worth showing. */
+  architecture?: ArchitectureSpec;
 };
 
 export const projects: Project[] = [
@@ -76,6 +114,47 @@ export const projects: Project[] = [
       },
     ],
     links: [{ label: "tapsi.shop", href: "https://tapsi.shop" }],
+    // TODO (Alireza): check this against the real repo before it goes live.
+    // It is written from the Approach/Trade-offs copy above plus Feature-Sliced
+    // Design's own canonical layer names — nothing here was inferred about your
+    // structure beyond what you already wrote. Rename or drop any layer that
+    // does not match, rather than leaving a diagram that is nearly true.
+    architecture: {
+      surfaces: [
+        { name: "Storefront", note: "Customer-facing commerce" },
+        { name: "Admin", note: "Internal operations" },
+        { name: "Vendor", note: "Seller-side management" },
+      ],
+      layers: [
+        {
+          name: "Design system",
+          note: "Design tokens and an Atomic Design component layer, documented in Storybook — the layer that stopped the three panels drifting apart.",
+          shared: true,
+        },
+        {
+          name: "Pages",
+          note: "Route entries. Rendering strategy chosen per route rather than by default.",
+        },
+        {
+          name: "Widgets",
+          note: "Composite blocks assembled from features and entities.",
+        },
+        {
+          name: "Features",
+          note: "User-facing actions. Isolated, so parallel work stops colliding.",
+        },
+        {
+          name: "Entities",
+          note: "Domain models with explicit state ownership.",
+        },
+        {
+          name: "Shared",
+          note: "Typed API contracts, utilities, primitives. No upward imports.",
+        },
+      ],
+      footnote:
+        "Feature-Sliced Design: a layer may import from layers below it, never above. That single rule is what makes the blast radius of a change predictable.",
+    },
     sections: [
       {
         id: 1,

@@ -1,5 +1,6 @@
-import { principles } from "@/data";
-import BoundaryDiagram from "./graphics/BoundaryDiagram";
+import Image from "next/image";
+
+import { portrait, principles } from "@/data";
 import Reveal from "./ui/Reveal";
 import Section from "./ui/Section";
 
@@ -7,6 +8,20 @@ const About = () => (
   <Section id="about" eyebrow="About" title="How I think about frontend">
     <div className="grid gap-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] lg:gap-20">
       <Reveal className="space-y-5 text-body-lg leading-relaxed text-body">
+        {portrait ? (
+          <div className="mb-8 overflow-hidden rounded-card border border-hairline">
+            <Image
+              src={portrait.src}
+              alt={portrait.alt}
+              width={720}
+              height={720}
+              sizes="(min-width: 1024px) 30vw, 92vw"
+              className="h-auto w-full"
+              priority={false}
+            />
+          </div>
+        ) : null}
+
         <p>
           I started where most people do — making screens look right. Six years
           in, the part that decides whether a product survives is rarely the
@@ -28,33 +43,28 @@ const About = () => (
 
       {/* Principles read as a numbered list rather than cards: this section
           already carries prose, and a second card grid here would flatten the
-          page's rhythm against Work, Stack and the case study. The diagram
-          above the list is the one exception — it illustrates the first
-          principle directly rather than decorating the section. */}
-      <div className="self-start">
-        <BoundaryDiagram className="mx-auto mb-10 block h-auto w-full max-w-xs" />
-        <Reveal stagger as="ol" className="border-t border-hairline">
-          {principles.map((principle, index) => (
-            <li
-              key={principle.id}
-              className="grid grid-cols-[auto_minmax(0,1fr)] gap-x-5 border-b border-hairline py-6"
+          page's rhythm against Work, Stack and the case study. */}
+      <Reveal stagger as="ol" className="self-start border-t border-hairline">
+        {principles.map((principle, index) => (
+          <li
+            key={principle.id}
+            className="grid grid-cols-[auto_minmax(0,1fr)] gap-x-5 border-b border-hairline py-6"
+          >
+            <span
+              aria-hidden="true"
+              className="font-mono text-body-sm tabular-nums text-faint"
             >
-              <span
-                aria-hidden="true"
-                className="font-mono text-body-sm tabular-nums text-faint"
-              >
-                {String(index + 1).padStart(2, "0")}
-              </span>
-              <div>
-                <h3 className="text-heading-md text-ink">{principle.title}</h3>
-                <p className="mt-2 text-body-md leading-relaxed text-body">
-                  {principle.body}
-                </p>
-              </div>
-            </li>
-          ))}
-        </Reveal>
-      </div>
+              {String(index + 1).padStart(2, "0")}
+            </span>
+            <div>
+              <h3 className="text-heading-md text-ink">{principle.title}</h3>
+              <p className="mt-2 text-body-md leading-relaxed text-body">
+                {principle.body}
+              </p>
+            </div>
+          </li>
+        ))}
+      </Reveal>
     </div>
   </Section>
 );

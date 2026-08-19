@@ -12,6 +12,9 @@ import Reveal from "@/components/ui/Reveal";
 import SectionGrid, { sectionAnchorId } from "@/components/ui/SectionGrid";
 import ReadingProgress from "@/components/ui/ReadingProgress";
 import CaseStudyRail from "@/components/work/CaseStudyRail";
+import ArchitectureDiagram from "@/components/work/ArchitectureDiagram";
+import ProjectMotif from "@/components/work/ProjectMotif";
+import ProjectShots from "@/components/work/ProjectShots";
 import Tag from "@/components/ui/Tag";
 import { button } from "@/components/ui/Button";
 
@@ -62,6 +65,12 @@ export default async function ProjectPage({ params }: Params) {
       id: sectionAnchorId("breakdown", section),
       label: section.label,
     })),
+    ...(project.architecture
+      ? [{ id: "project-architecture", label: "Architecture" }]
+      : []),
+    ...(project.shots?.length
+      ? [{ id: "project-screens", label: "Screens" }]
+      : []),
     { id: "project-stack-section", label: "Stack" },
   ];
 
@@ -117,6 +126,15 @@ export default async function ProjectPage({ params }: Params) {
             ))}
           </Reveal>
 
+          {/* A banner band rather than a screenshot: it gives the page a
+              visual opening and matches this project's social card exactly, so
+              a shared link and the page behind it read as one object. */}
+          <Reveal className="mt-14 overflow-hidden rounded-panel border border-hairline bg-canvas-elevated">
+            <div className="aspect-[21/6] p-2 opacity-80">
+              <ProjectMotif slug={project.slug} cols={44} rows={13} />
+            </div>
+          </Reveal>
+
           <Reveal id="overview" className="mt-14 max-w-3xl scroll-mt-28">
             <p className="text-body-lg leading-relaxed text-body">
               {project.context}
@@ -154,6 +172,41 @@ export default async function ProjectPage({ params }: Params) {
                   className="mt-6"
                 />
               </section>
+
+              {project.architecture ? (
+                <section
+                  aria-labelledby="project-architecture-heading"
+                  className="mt-20 scroll-mt-28 md:mt-24"
+                  id="project-architecture"
+                >
+                  <h2
+                    id="project-architecture-heading"
+                    className="font-mono text-mono-eyebrow uppercase tracking-widest text-mute"
+                  >
+                    Architecture
+                  </h2>
+                  <ArchitectureDiagram
+                    spec={project.architecture}
+                    className="mt-6"
+                  />
+                </section>
+              ) : null}
+
+              {project.shots?.length ? (
+                <section
+                  aria-labelledby="project-screens-heading"
+                  className="mt-20 scroll-mt-28 md:mt-24"
+                  id="project-screens"
+                >
+                  <h2
+                    id="project-screens-heading"
+                    className="font-mono text-mono-eyebrow uppercase tracking-widest text-mute"
+                  >
+                    Screens
+                  </h2>
+                  <ProjectShots shots={project.shots} className="mt-6" />
+                </section>
+              ) : null}
 
               <section
                 aria-labelledby="project-stack"

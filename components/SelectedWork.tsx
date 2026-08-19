@@ -5,6 +5,7 @@ import { projects } from "@/data/projects";
 import Reveal from "./ui/Reveal";
 import Section from "./ui/Section";
 import Tag from "./ui/Tag";
+import ProjectMotif from "./work/ProjectMotif";
 
 /**
  * Projects render as a list rather than a card grid on purpose: a list reads as
@@ -27,7 +28,7 @@ const SelectedWork = () => (
         <li key={project.slug} className="group border-b border-hairline">
           <Link
             href={`/work/${project.slug}`}
-            className="grid gap-x-8 gap-y-5 py-10 md:grid-cols-[3rem_minmax(0,1fr)] focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-accent-brand focus-visible:ring-offset-4 focus-visible:ring-offset-canvas"
+            className="grid gap-x-8 gap-y-5 py-10 md:grid-cols-[3rem_minmax(0,1fr)] lg:grid-cols-[3rem_minmax(0,1fr)_14rem] focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-accent-brand focus-visible:ring-offset-4 focus-visible:ring-offset-canvas"
           >
             <span
               aria-hidden="true"
@@ -64,6 +65,16 @@ const SelectedWork = () => (
                   <Tag key={tech}>{tech}</Tag>
                 ))}
               </ul>
+            </div>
+
+            {/* Generated per project, not a screenshot stand-in — see
+                ProjectMotif. It gives the row a visual anchor and makes the
+                list scannable by shape as well as by title. Hidden below lg:
+                at narrow widths it would push the actual content down. */}
+            <div className="hidden self-center overflow-hidden rounded-card border border-hairline bg-canvas-elevated lg:block">
+              <div className="aspect-[16/10] p-1 opacity-80 transition-opacity duration-300 group-hover:opacity-100">
+                <ProjectMotif slug={project.slug} />
+              </div>
             </div>
           </Link>
         </li>

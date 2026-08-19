@@ -157,4 +157,17 @@ export const socialMedia: SocialLink[] = [
   },
 ];
 
+/**
+ * Portrait for the About section.
+ *
+ * null until a real photograph exists — About renders no image slot at all
+ * rather than a placeholder. The repo previously shipped `public/profile.svg`,
+ * a stock photograph of an unrelated person; on a portfolio that is worse than
+ * having no photo, so the slot stays empty until it is genuinely you.
+ *
+ * TODO (Alireza): drop a square photo at public/portrait.jpg (1000x1000 or
+ * larger, it gets resized) and set this to { src: "/portrait.jpg", alt: "..." }.
+ */
+export const portrait: { src: string; alt: string } | null = null;
+
 export const contactEmail = "work.alireza.akbarzadeh@gmail.com";
