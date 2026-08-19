@@ -32,7 +32,7 @@ const HeroCanvas = () => {
   return (
     <div
       aria-hidden="true"
-      className="pointer-events-none absolute inset-0 -z-10 opacity-50 [mask-image:radial-gradient(ellipse_at_72%_45%,black_18%,transparent_72%)]"
+      className="pointer-events-none absolute inset-0 -z-10 opacity-50 mask-[radial-gradient(ellipse_at_72%_45%,black_18%,transparent_72%)]"
     >
       <HeroScene density={isNarrow ? 64 : 96} animate={!reducedMotion} />
     </div>

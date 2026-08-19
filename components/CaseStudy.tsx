@@ -33,7 +33,7 @@ const CaseStudy = () => {
 
       <a
         href={`/work/${project.slug}`}
-        className="group mt-8 inline-flex items-center gap-1.5 rounded-button font-mono text-body-sm text-mute transition-colors hover:text-accent-brand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-brand focus-visible:ring-offset-4 focus-visible:ring-offset-canvas"
+        className="group mt-8 inline-flex items-center gap-1.5 rounded-button font-mono text-body-sm text-mute transition-colors hover:text-accent-brand focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-accent-brand focus-visible:ring-offset-4 focus-visible:ring-offset-canvas"
       >
         Read the full case study
         <ArrowUpRight

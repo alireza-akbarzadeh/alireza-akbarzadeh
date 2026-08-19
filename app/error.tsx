@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import Link from "next/link";
 
 import { Button, button } from "@/components/ui/Button";
 
@@ -31,9 +32,9 @@ export default function Error({
         <Button onClick={reset} variant="primary" shape="pill">
           Try again
         </Button>
-        <a href="/" className={button({ variant: "secondary", shape: "pill" })}>
+        <Link href="/" className={button({ variant: "secondary", shape: "pill" })}>
           Back home
-        </a>
+        </Link>
       </div>
     </main>
   );

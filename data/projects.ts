@@ -101,6 +101,97 @@ export const projects: Project[] = [
   },
 
   {
+    slug: "luxe",
+    title: "Luxe",
+    tagline: "A domain-driven Go backend, and a frontend whose API types can't drift from it",
+    summary:
+      "A full-stack e-commerce platform: a Go/Gin backend running catalog, cart, checkout, fulfillment and returns behind a generic DB-driven workflow engine, and a Next.js storefront + admin dashboard whose entire API layer is generated from the backend's own OpenAPI spec.",
+    year: "2026",
+    role: "Solo — full-stack",
+    status: "In development",
+    context:
+      "An e-commerce platform built as two repositories — a Go API (luxe) and a Next.js storefront/admin (luxe-front) — covering the full commerce lifecycle: catalog and search, cart, multi-method checkout, order fulfillment, returns, and an admin surface for running all of it, rather than just the customer-facing half.",
+    stack: ["Go", "Gin", "Next.js 16", "PostgreSQL", "Stripe"],
+    stackDetail: [
+      {
+        group: "Backend",
+        items: [
+          "Go",
+          "Gin",
+          "GORM / pgx",
+          "PostgreSQL",
+          "Redis",
+          "Asynq",
+          "Stripe",
+        ],
+      },
+      {
+        group: "Frontend",
+        items: [
+          "Next.js 16",
+          "React 19",
+          "TypeScript",
+          "Tailwind CSS v4",
+          "TanStack Query / Table / Form",
+          "Zustand",
+          "next-intl",
+        ],
+      },
+      {
+        group: "Platform & quality",
+        items: [
+          "Orval (OpenAPI codegen)",
+          "Sentry",
+          "OpenTelemetry",
+          "Prometheus",
+          "Playwright",
+          "Vitest",
+        ],
+      },
+    ],
+    links: [
+      {
+        label: "github.com/luxe (backend)",
+        href: "https://github.com/alireza-akbarzadeh/luxe",
+      },
+      {
+        label: "github.com/luxe-front",
+        href: "https://github.com/alireza-akbarzadeh/luxe-front",
+      },
+    ],
+    sections: [
+      {
+        id: 1,
+        label: "Problem",
+        body: "A real store needs more than a product list and a buy button: stock has to stay correct through checkout, payments have to support more than one path, fulfillment and returns are their own workflows, and someone running the store needs an admin surface for all of it. Layer a frontend on top and there's a second problem — keeping its API types honest as the backend's contract keeps changing underneath it.",
+      },
+      {
+        id: 2,
+        label: "Approach",
+        body: "The backend is Go and Gin, layered so HTTP handlers bind and validate a request, hand off to a per-domain application layer, and land on domain rules sitting over GORM/pgx repositories. Checkout, payment and stock-decrement paths run inside database transactions; slower work — order and shipment processing, transactional email — goes through an Asynq queue backed by Redis, falling back to an in-memory worker when Redis isn't configured, so the same code path runs in local dev without extra infrastructure. On the frontend, REST types and query hooks aren't hand-written: the backend's Swagger annotations produce an OpenAPI 3 spec, and Orval generates typed TanStack Query hooks straight from it into `src/services/` — editing a generated file is treated as a bug, not a shortcut.",
+      },
+      {
+        id: 3,
+        label: "Decisions",
+        body: "The deliberate architectural bet is the workflow engine: order, product, shipment, return, coupon, brand, category, collection and user lifecycles all run on one generic, database-driven state machine — states, transitions, guards and hooks stored as data — instead of nine separate hardcoded status enums scattered through the codebase. Every admin screen that touches a lifecycle gets the same transitions editor rather than a bare status dropdown, so adding a new stateful entity means writing a definition, not a parallel set of if/else branches.",
+      },
+      {
+        id: 4,
+        label: "Trade-offs",
+        body: "The admin and storefront are explicit in their own docs about what's real versus stubbed, rather than presenting a finished surface: gift cards exist as UI with no backend entity behind them yet, social login shows a \"coming soon\" toast, and a handful of admin routes are roadmap placeholders rather than wired pages. The trade-off was deliberate — ship the core buy flow (catalog through checkout through fulfillment through returns) completely, and leave the remaining surface visibly unfinished instead of quietly half-working.",
+      },
+      // TODO (Alireza): a few things only you can fill in before this goes live —
+      // (1) why you built this one (portfolio depth piece vs. a specific business
+      // idea), (2) the hardest bug or trade-off you actually hit building the
+      // workflow engine or the Stripe/wallet payment split, (3) whether the
+      // Render API (luxe-3pvz.onrender.com) and the Vercel storefront are meant
+      // to stay public — I couldn't reach either from this sandbox to confirm
+      // they're live, so no demo link is included above. Add one once confirmed,
+      // and flip `status` to "Live" once the deploys are stable and worth linking.
+    ],
+  },
+
+  {
     slug: "nexora",
     title: "Nexora",
     tagline: "A spot-trading terminal where the API keys never touch the client",
@@ -428,9 +519,11 @@ export const getProject = (slug: string) =>
  * they are not represented here. To add one, copy any object above and fill it
  * in — the detail page and the home-page list both derive from this array, so
  * nothing else needs touching:
- *   - luxt-front
- *   - luxt (Go backend)
  *   - devtools-2
+ *
+ * `luxe` and `luxe-front` were added 2026-08-18, now that both repos are
+ * public. See the TODO comment inside that entry for the specific gaps
+ * (role/motivation, live-demo links) still worth filling in.
  *
  * Also deliberately excluded, and worth keeping excluded: `alirezas-os` (an
  * unmodified create-t3-app scaffold) and `orders` (four commits, no README).

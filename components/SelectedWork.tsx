@@ -27,7 +27,7 @@ const SelectedWork = () => (
         <li key={project.slug} className="group border-b border-hairline">
           <Link
             href={`/work/${project.slug}`}
-            className="grid gap-x-8 gap-y-5 py-10 md:grid-cols-[3rem_minmax(0,1fr)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-brand focus-visible:ring-offset-4 focus-visible:ring-offset-canvas"
+            className="grid gap-x-8 gap-y-5 py-10 md:grid-cols-[3rem_minmax(0,1fr)] focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-accent-brand focus-visible:ring-offset-4 focus-visible:ring-offset-canvas"
           >
             <span
               aria-hidden="true"

@@ -1,18 +1,19 @@
-import { Github, Linkedin, Twitter } from "lucide-react";
-import type { LucideIcon } from "lucide-react";
+import { IconBrandGithub, IconBrandLinkedin, IconBrandX } from "@tabler/icons-react";
+import type { TablerIcon } from "@tabler/icons-react";
 
 import { socialMedia } from "@/data";
 import { button } from "./ui/Button";
 
 /**
- * Icons come from lucide (already a dependency) rather than the previous
- * white-filled SVG files: they inherit currentColor, so they stay legible in
- * both themes and cost three fewer network requests.
+ * Brand icons come from @tabler/icons-react rather than lucide-react: lucide
+ * dropped all company/brand logos (trademark scope), so there's no Github,
+ * Linkedin or Twitter/X export left on lucide-react >=1. Tabler still ships
+ * them, and they inherit currentColor the same way.
  */
-const ICONS: Record<string, LucideIcon> = {
-  github: Github,
-  x: Twitter,
-  linkedin: Linkedin,
+const ICONS: Record<string, TablerIcon> = {
+  github: IconBrandGithub,
+  x: IconBrandX,
+  linkedin: IconBrandLinkedin,
 };
 
 const Footer = () => (

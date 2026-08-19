@@ -13,15 +13,16 @@ import SectionGrid from "@/components/ui/SectionGrid";
 import Tag from "@/components/ui/Tag";
 import { button } from "@/components/ui/Button";
 
-type Params = { params: { slug: string } };
+type Params = { params: Promise<{ slug: string }> };
 
 /** Every project is known at build time, so all detail pages prerender. */
 export function generateStaticParams() {
   return projects.map((project) => ({ slug: project.slug }));
 }
 
-export function generateMetadata({ params }: Params): Metadata {
-  const project = getProject(params.slug);
+export async function generateMetadata({ params }: Params): Promise<Metadata> {
+  const { slug } = await params;
+  const project = getProject(slug);
   if (!project) return {};
 
   const title = `${project.title} — ${project.tagline}`;
@@ -43,8 +44,9 @@ export function generateMetadata({ params }: Params): Metadata {
   };
 }
 
-export default function ProjectPage({ params }: Params) {
-  const project = getProject(params.slug);
+export default async function ProjectPage({ params }: Params) {
+  const { slug } = await params;
+  const project = getProject(slug);
   if (!project) notFound();
 
   const index = projects.findIndex((p) => p.slug === project.slug);
@@ -58,7 +60,7 @@ export default function ProjectPage({ params }: Params) {
           <Reveal>
             <Link
               href="/#projects"
-              className="group inline-flex items-center gap-2 rounded-button font-mono text-mono-eyebrow uppercase tracking-widest text-mute transition-colors hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-brand focus-visible:ring-offset-4 focus-visible:ring-offset-canvas"
+              className="group inline-flex items-center gap-2 rounded-button font-mono text-mono-eyebrow uppercase tracking-widest text-mute transition-colors hover:text-ink focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-accent-brand focus-visible:ring-offset-4 focus-visible:ring-offset-canvas"
             >
               <ArrowLeft
                 aria-hidden="true"
@@ -166,7 +168,7 @@ export default function ProjectPage({ params }: Params) {
         >
           <Link
             href={`/work/${next.slug}`}
-            className="group flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2 rounded-button focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-brand focus-visible:ring-offset-4 focus-visible:ring-offset-canvas"
+            className="group flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2 rounded-button focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-accent-brand focus-visible:ring-offset-4 focus-visible:ring-offset-canvas"
           >
             <span className="font-mono text-mono-eyebrow uppercase tracking-widest text-mute">
               Next project

@@ -50,13 +50,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      {/* <head>
-        <link rel="icon" href="/jsm-logo.png" sizes="any" />
-      </head> */}
       <body className={inter.className}>
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:rounded-button focus:border focus:border-hairline focus:bg-canvas-elevated focus:px-4 focus:py-2 focus:text-label-sm focus:text-ink"
+          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-60 focus:rounded-button focus:border focus:border-hairline focus:bg-canvas-elevated focus:px-4 focus:py-2 focus:text-label-sm focus:text-ink"
         >
           Skip to content
         </a>

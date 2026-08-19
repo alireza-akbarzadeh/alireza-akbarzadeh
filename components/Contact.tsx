@@ -33,7 +33,7 @@ const Contact = () => (
 
       <a
         href={`mailto:${contactEmail}`}
-        className="mt-5 rounded-button font-mono text-body-sm text-mute underline decoration-hairline underline-offset-4 transition-colors hover:text-accent-brand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-brand focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
+        className="mt-5 rounded-button font-mono text-body-sm text-mute underline decoration-hairline underline-offset-4 transition-colors hover:text-accent-brand focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-accent-brand focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
       >
         {contactEmail}
       </a>

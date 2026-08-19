@@ -16,25 +16,14 @@ export const heroFacts = [
 export const principles = [
   {
     id: 1,
-    title: "I'm based in Tehran, Iran and open to remote work worldwide.",
-    description: "",
-    className: "lg:col-span-5 md:col-span-3 md:row-span-2",
-    imgClassName: "",
-    titleClassName: "justify-start",
-    img: "",
-    spareImg: "",
+    title: "Boundaries before features",
+    body: "Where state lives and how data crosses module lines is decided first. Most frontend pain a year in traces back to a boundary nobody drew on day one.",
   },
   {
     id: 2,
-    title: "I prioritize client collaboration, fostering open communication ",
-    description: "",
-    className: "lg:col-span-3 md:col-span-6 md:row-span-4 lg:min-h-[60vh]",
-    imgClassName: "w-full h-full",
-    titleClassName: "justify-end",
-    img: "/b1.svg",
-    spareImg: "",
+    title: "One system, not five opinions",
+    body: "Design tokens and a documented component layer, so three products look like one product and a new screen is assembly rather than invention.",
   },
-
   {
     id: 3,
     title: "Make the safe path the easy path",
@@ -42,34 +31,8 @@ export const principles = [
   },
   {
     id: 4,
-    title: "Tech enthusiast with a passion for development.",
-    description: "",
-    className: "lg:col-span-2 md:col-span-3 md:row-span-1",
-    imgClassName: "",
-    titleClassName: "justify-start",
-    img: "/grid.svg",
-    spareImg: "/b4.svg",
-  },
-
-  {
-    id: 5,
-    title: "Currently im working on tapsi.shop",
-    description: "The Inside Scoop",
-    className: "md:col-span-3 md:row-span-2",
-    imgClassName: "absolute right-0 bottom-0 md:w-96 w-60",
-    titleClassName: "justify-center md:justify-start lg:justify-center",
-    img: "/b5.svg",
-    spareImg: "/grid.svg",
-  },
-  {
-    id: 6,
-    title: "Do you want to start a project together?",
-    description: "",
-    className: "lg:col-span-2 md:col-span-3 md:row-span-1",
-    imgClassName: "",
-    titleClassName: "justify-center md:max-w-full max-w-60 text-center",
-    img: "",
-    spareImg: "",
+    title: "Measure, then claim",
+    body: "Rendering strategy and bundle size judged against real numbers. If I say it got 30% faster, there is a before and after behind it.",
   },
 ];
 

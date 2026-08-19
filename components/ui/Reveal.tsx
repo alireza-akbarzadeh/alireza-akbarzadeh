@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, type ElementType, type ReactNode } from "react";
+import { createElement, useRef, type JSX, type ReactNode } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
@@ -13,7 +13,8 @@ type RevealProps = {
   stagger?: boolean;
   delay?: number;
   className?: string;
-  as?: ElementType;
+  /** Restricted to intrinsic tags — every call site passes a literal like "dl" or "ol". */
+  as?: keyof JSX.IntrinsicElements;
 };
 
 /**
@@ -58,11 +59,14 @@ export const Reveal = ({
     { scope: ref }
   );
 
-  return (
-    <Tag ref={ref} className={className}>
-      {children}
-    </Tag>
-  );
+  // TypeScript can't resolve a single intrinsic element's ref/children types
+  // from the `as` union, so this renders via `createElement` rather than
+  // `<Tag>` JSX. react-hooks/refs flags the `ref` in props here because it
+  // can't statically prove `Tag` is always a host element rather than a
+  // component that might read `ref.current` during render — every call site
+  // passes an intrinsic tag literal (see RevealProps), so that never happens.
+  // eslint-disable-next-line react-hooks/refs
+  return createElement(Tag, { ref, className }, children);
 };
 
 export default Reveal;

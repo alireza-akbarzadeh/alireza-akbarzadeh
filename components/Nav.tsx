@@ -29,6 +29,9 @@ const Nav = () => {
   const pathname = usePathname();
   const isHome = pathname === "/";
   const hrefFor = (link: string) => (isHome ? link : `/${link}`);
+  // Scroll-spy state only means something on the home page — mask it here
+  // rather than resetting `active` from the effect below.
+  const effectiveActive = isHome ? active : null;
 
   // Hairline + blur appear only once the page has moved, so the hero meets the
   // viewport edge cleanly on first paint.
@@ -41,12 +44,12 @@ const Nav = () => {
 
   // Scroll spy. A rootMargin biased toward the top of the viewport means the
   // active item changes when a section reaches reading position, not when it
-  // first peeks into view.
+  // first peeks into view. Off the home page there's nothing to observe —
+  // `effectiveActive` below masks stale state instead of resetting it here,
+  // since setting state synchronously in an effect body just to null it out
+  // triggers an avoidable extra render.
   useEffect(() => {
-    if (!isHome) {
-      setActive(null);
-      return;
-    }
+    if (!isHome) return;
 
     const ids = [
       ...navItems.map((item) => item.link.replace("#", "")),
@@ -115,7 +118,7 @@ const Nav = () => {
       >
         <a
           href={isHome ? "#top" : "/"}
-          className="rounded-button text-label-sm font-semibold tracking-tight text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-brand focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
+          className="rounded-button text-label-sm font-semibold tracking-tight text-ink focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-accent-brand focus-visible:ring-offset-2 focus-visible:ring-offset-canvas"
         >
           Alireza Akbarzadeh
         </a>
@@ -123,7 +126,7 @@ const Nav = () => {
         <div className="flex items-center gap-1">
           <ul className="hidden items-center gap-1 md:flex">
             {navItems.map((item) => {
-              const isActive = active === item.link;
+              const isActive = effectiveActive === item.link;
               return (
                 <li key={item.link}>
                   <a
@@ -131,7 +134,7 @@ const Nav = () => {
                     aria-current={isActive ? "true" : undefined}
                     className={cn(
                       "rounded-button px-3 py-2 text-label-sm transition-colors",
-                      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-brand",
+                      "focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-accent-brand",
                       "focus-visible:ring-offset-2 focus-visible:ring-offset-canvas",
                       isActive ? "text-ink" : "text-body hover:text-ink"
                     )}
@@ -194,8 +197,8 @@ const Nav = () => {
                   onClick={() => setOpen(false)}
                   className={cn(
                     "block rounded-button px-2 py-3 text-label-sm transition-colors",
-                    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-brand",
-                    active === item.link
+                    "focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-accent-brand",
+                    effectiveActive === item.link
                       ? "text-ink"
                       : "text-body hover:text-ink"
                   )}
