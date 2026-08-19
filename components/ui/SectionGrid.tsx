@@ -3,6 +3,13 @@ import { cn } from "@/lib/utils";
 import Reveal from "./Reveal";
 
 /**
+ * Anchor id for one panel. Exported so the table of contents and the panel it
+ * points at derive the id from the same function rather than both guessing.
+ */
+export const sectionAnchorId = (prefix: string, section: ProjectSection) =>
+  `${prefix}-${section.label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
+
+/**
  * The numbered Problem / Approach / Trade-offs / Result grid, shared by the
  * home-page case study and every project detail page so the two never drift.
  *
@@ -12,9 +19,17 @@ import Reveal from "./Reveal";
 export const SectionGrid = ({
   sections,
   className,
+  /**
+   * When set, each panel gets `<idPrefix>-<label>` as its DOM id so a table of
+   * contents can link to it. Left off on the home page, where the grid is one
+   * block inside a section that already owns an anchor — two elements claiming
+   * the same id is the bug this prop exists to avoid.
+   */
+  idPrefix,
 }: {
   sections: ProjectSection[];
   className?: string;
+  idPrefix?: string;
 }) => (
   <Reveal
     stagger
@@ -36,7 +51,9 @@ export const SectionGrid = ({
       return (
         <article
           key={section.id}
+          id={idPrefix ? sectionAnchorId(idPrefix, section) : undefined}
           className={cn(
+            idPrefix && "scroll-mt-28",
             "bg-canvas-elevated p-6 md:p-8",
             spansRow && "md:col-span-2"
           )}

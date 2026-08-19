@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { contactEmail, navItems } from "@/data";
 import { cn } from "@/lib/utils";
 import { button } from "./ui/Button";
+import ThemeToggle from "./ui/ThemeToggle";
 
 /**
  * Section ids that should light up a nav item other than their own. The case
@@ -145,6 +146,8 @@ const Nav = () => {
               );
             })}
           </ul>
+
+          <ThemeToggle className="ml-1" />
 
           <a
             href={`mailto:${contactEmail}`}

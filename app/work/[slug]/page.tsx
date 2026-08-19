@@ -9,7 +9,9 @@ import { cn } from "@/lib/utils";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import Reveal from "@/components/ui/Reveal";
-import SectionGrid from "@/components/ui/SectionGrid";
+import SectionGrid, { sectionAnchorId } from "@/components/ui/SectionGrid";
+import ReadingProgress from "@/components/ui/ReadingProgress";
+import CaseStudyRail from "@/components/work/CaseStudyRail";
 import Tag from "@/components/ui/Tag";
 import { button } from "@/components/ui/Button";
 
@@ -52,11 +54,23 @@ export default async function ProjectPage({ params }: Params) {
   const index = projects.findIndex((p) => p.slug === project.slug);
   const next = projects[(index + 1) % projects.length];
 
+  // Derived from the project record, so a project with a different set of
+  // breakdown panels gets a matching index without touching this file.
+  const railItems = [
+    { id: "overview", label: "Overview" },
+    ...project.sections.map((section) => ({
+      id: sectionAnchorId("breakdown", section),
+      label: section.label,
+    })),
+    { id: "project-stack-section", label: "Stack" },
+  ];
+
   return (
     <>
       <Nav />
+      <ReadingProgress targetId="case-study-article" />
       <main id="main" className="mx-auto max-w-6xl px-5 sm:px-8">
-        <article className="pt-32 md:pt-40">
+        <article id="case-study-article" className="pt-32 md:pt-40">
           <Reveal>
             <Link
               href="/#projects"
@@ -103,7 +117,7 @@ export default async function ProjectPage({ params }: Params) {
             ))}
           </Reveal>
 
-          <Reveal className="mt-14 max-w-3xl">
+          <Reveal id="overview" className="mt-14 max-w-3xl scroll-mt-28">
             <p className="text-body-lg leading-relaxed text-body">
               {project.context}
             </p>
@@ -125,40 +139,54 @@ export default async function ProjectPage({ params }: Params) {
             ))}
           </div>
 
-          <section aria-labelledby="project-breakdown" className="mt-20 md:mt-24">
-            <h2
-              id="project-breakdown"
-              className="font-mono text-mono-eyebrow uppercase tracking-widest text-mute"
-            >
-              The breakdown
-            </h2>
-            <SectionGrid sections={project.sections} className="mt-6" />
-          </section>
-
-          <section aria-labelledby="project-stack" className="mt-20 md:mt-24">
-            <h2
-              id="project-stack"
-              className="font-mono text-mono-eyebrow uppercase tracking-widest text-mute"
-            >
-              Stack
-            </h2>
-
-            <Reveal stagger className="mt-6 grid gap-5 md:grid-cols-2">
-              {project.stackDetail.map((group) => (
-                <div
-                  key={group.group}
-                  className="rounded-card border border-hairline bg-canvas-elevated p-6"
+          <div className="mt-20 gap-16 md:mt-24 lg:grid lg:grid-cols-[minmax(0,1fr)_13rem] lg:items-start">
+            <div className="lg:order-first">
+              <section aria-labelledby="project-breakdown">
+                <h2
+                  id="project-breakdown"
+                  className="font-mono text-mono-eyebrow uppercase tracking-widest text-mute"
                 >
-                  <h3 className="text-heading-md text-ink">{group.group}</h3>
-                  <ul className="mt-5 flex flex-wrap gap-2">
-                    {group.items.map((item) => (
-                      <Tag key={item}>{item}</Tag>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </Reveal>
-          </section>
+                  The breakdown
+                </h2>
+                <SectionGrid
+                  sections={project.sections}
+                  idPrefix="breakdown"
+                  className="mt-6"
+                />
+              </section>
+
+              <section
+                aria-labelledby="project-stack"
+                className="mt-20 scroll-mt-28 md:mt-24"
+                id="project-stack-section"
+              >
+                <h2
+                  id="project-stack"
+                  className="font-mono text-mono-eyebrow uppercase tracking-widest text-mute"
+                >
+                  Stack
+                </h2>
+
+                <Reveal stagger className="mt-6 grid gap-5 md:grid-cols-2">
+                  {project.stackDetail.map((group) => (
+                    <div
+                      key={group.group}
+                      className="rounded-card border border-hairline bg-canvas-elevated p-6"
+                    >
+                      <h3 className="text-heading-md text-ink">{group.group}</h3>
+                      <ul className="mt-5 flex flex-wrap gap-2">
+                        {group.items.map((item) => (
+                          <Tag key={item}>{item}</Tag>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </Reveal>
+              </section>
+            </div>
+
+            <CaseStudyRail items={railItems} />
+          </div>
         </article>
 
         {/* Keep the reader moving rather than dead-ending the page. */}

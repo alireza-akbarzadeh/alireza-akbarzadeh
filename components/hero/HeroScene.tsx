@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 
@@ -45,6 +45,7 @@ const vertexShader = /* glsl */ `
 const fragmentShader = /* glsl */ `
   uniform vec3 uColorLow;
   uniform vec3 uColorHigh;
+  uniform float uAlpha;
   varying float vElevation;
   varying float vDistance;
 
@@ -61,15 +62,48 @@ const fragmentShader = /* glsl */ `
     // with the accent surfacing only where the wave peaks, rather than as a
     // wash of brand colour. See DESIGN.md → "one chromatic token".
     vec3 color = mix(uColorLow, uColorHigh, smoothstep(0.25, 1.8, vElevation));
-    gl_FragColor = vec4(color, alpha * 0.6);
+    gl_FragColor = vec4(color, alpha * uAlpha);
   }
 `;
 
-type FieldProps = { count: number; animate: boolean };
+export type SceneTheme = "dark" | "light";
 
-function ParticleField({ count, animate }: FieldProps) {
+/**
+ * Additive blending is what makes the field glow on near-black — and exactly
+ * what makes it disappear on near-white, since adding light to an already
+ * bright canvas cannot darken it. Light mode therefore switches to normal
+ * blending and inverts the value relationship: dark points laid over a pale
+ * canvas instead of bright points over a dark one.
+ *
+ * The colours track the ink scale and the single amber accent from DESIGN.md —
+ * the light values are the light theme's own accent, not the dark one reused.
+ */
+const PALETTES: Record<
+  SceneTheme,
+  { low: string; high: string; blending: THREE.Blending; alpha: number }
+> = {
+  dark: {
+    low: "#3f3f46",
+    high: "#F2A93C",
+    blending: THREE.AdditiveBlending,
+    alpha: 0.6,
+  },
+  light: {
+    // Two steps lighter than the dark theme's neutral is deliberate: dark marks
+    // on a pale canvas gain contrast far faster than pale marks on a dark one,
+    // so matching the dark values here would read as dirt over the copy.
+    low: "#d4d4d8",
+    high: "#C9942E",
+    blending: THREE.NormalBlending,
+    alpha: 0.55,
+  },
+};
+
+type FieldProps = { count: number; animate: boolean; theme: SceneTheme };
+
+function ParticleField({ count, animate, theme }: FieldProps) {
   const materialRef = useRef<THREE.ShaderMaterial>(null);
-  const { viewport } = useThree();
+  const { viewport, invalidate } = useThree();
 
   const positions = useMemo(() => {
     const arr = new Float32Array(count * count * 3);
@@ -84,18 +118,40 @@ function ParticleField({ count, animate }: FieldProps) {
     return arr;
   }, [count]);
 
-  const uniforms = useMemo(
-    () => ({
+  // Seeded once from the mount-time palette, then mutated in place on theme
+  // change (below) — rebuilding the object would force a new ShaderMaterial and
+  // restart uTime, snapping the wave mid-motion.
+  const uniforms = useMemo(() => {
+    const palette = PALETTES[theme];
+    return {
       uTime: { value: 0 },
       uPointer: { value: new THREE.Vector2(0, 0) },
       uSize: { value: 2.6 },
       // Neutral base, amber crest — the ink scale and the single accent from
       // the design system, not a second palette.
-      uColorLow: { value: new THREE.Color("#3f3f46") },
-      uColorHigh: { value: new THREE.Color("#F2A93C") },
-    }),
-    []
-  );
+      uColorLow: { value: new THREE.Color(palette.low) },
+      uColorHigh: { value: new THREE.Color(palette.high) },
+      uAlpha: { value: palette.alpha },
+    };
+    // Mount-time seed only; `theme` updates flow through the effect below.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    const material = materialRef.current;
+    if (!material) return;
+
+    const palette = PALETTES[theme];
+    material.uniforms.uColorLow.value.set(palette.low);
+    material.uniforms.uColorHigh.value.set(palette.high);
+    material.uniforms.uAlpha.value = palette.alpha;
+    material.blending = palette.blending;
+    material.needsUpdate = true;
+
+    // Under prefers-reduced-motion the canvas runs on "demand" and would keep
+    // showing the old palette until something else requested a frame.
+    invalidate();
+  }, [theme, invalidate]);
 
   useFrame((state, delta) => {
     const material = materialRef.current;
@@ -132,7 +188,7 @@ function ParticleField({ count, animate }: FieldProps) {
         fragmentShader={fragmentShader}
         transparent
         depthWrite={false}
-        blending={THREE.AdditiveBlending}
+        blending={PALETTES[theme].blending}
       />
     </points>
   );
@@ -143,9 +199,15 @@ type HeroSceneProps = {
   density?: number;
   /** false → render a single static frame (prefers-reduced-motion). */
   animate?: boolean;
+  /** Drives the palette and the blend mode — see PALETTES. */
+  theme?: SceneTheme;
 };
 
-const HeroScene = ({ density = 96, animate = true }: HeroSceneProps) => {
+const HeroScene = ({
+  density = 96,
+  animate = true,
+  theme = "dark",
+}: HeroSceneProps) => {
   return (
     <Canvas
       camera={{ position: [0, 0, 12], fov: 42 }}
@@ -154,7 +216,7 @@ const HeroScene = ({ density = 96, animate = true }: HeroSceneProps) => {
       frameloop={animate ? "always" : "demand"}
       style={{ pointerEvents: "none" }}
     >
-      <ParticleField count={density} animate={animate} />
+      <ParticleField count={density} animate={animate} theme={theme} />
     </Canvas>
   );
 };

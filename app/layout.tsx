@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 
 import "./globals.css";
@@ -41,6 +41,19 @@ export const metadata: Metadata = {
     creator: "@AAkbarzadehDev",
   },
   robots: { index: true, follow: true },
+};
+
+/**
+ * Tints the browser/OS chrome to match the active theme. Two entries keyed on
+ * the media query rather than one fixed colour, so the address bar follows the
+ * theme instead of pinning to whichever mode happened to be the default.
+ * Values are the resolved --canvas token for each theme.
+ */
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#fafafa" },
+    { media: "(prefers-color-scheme: dark)", color: "#0a0a0a" },
+  ],
 };
 
 export default function RootLayout({

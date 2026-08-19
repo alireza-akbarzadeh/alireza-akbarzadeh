@@ -179,6 +179,11 @@
 
     --radius: 0.75rem;
 
+    /* Tells the browser to render scrollbars, form controls and the overscroll
+       gutter in the matching mode. Without it a light page keeps dark native
+       chrome, which is the detail that gives a hand-rolled theme away. */
+    color-scheme: light;
+
     /* Geist ink/canvas/hairline scale (light) */
     --ink: 0 0% 9%;
     --body-text: 0 0% 30%;
@@ -201,6 +206,8 @@
   }
 
   .dark {
+    color-scheme: dark;
+
     --background: 0 0% 4%;
     --foreground: 0 0% 98%;
 

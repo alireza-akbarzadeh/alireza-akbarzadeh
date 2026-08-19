@@ -9,6 +9,8 @@ gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 type RevealProps = {
   children: ReactNode;
+  /** Anchor target, when the revealed block is also a link destination. */
+  id?: string;
   /** Stagger direct children instead of animating the wrapper as one block. */
   stagger?: boolean;
   delay?: number;
@@ -23,6 +25,7 @@ type RevealProps = {
  */
 export const Reveal = ({
   children,
+  id,
   stagger = false,
   delay = 0,
   className,
@@ -66,7 +69,7 @@ export const Reveal = ({
   // component that might read `ref.current` during render — every call site
   // passes an intrinsic tag literal (see RevealProps), so that never happens.
   // eslint-disable-next-line react-hooks/refs
-  return createElement(Tag, { ref, className }, children);
+  return createElement(Tag, { ref, id, className }, children);
 };
 
 export default Reveal;
