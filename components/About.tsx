@@ -1,4 +1,5 @@
 import { principles } from "@/data";
+import BoundaryDiagram from "./graphics/BoundaryDiagram";
 import Reveal from "./ui/Reveal";
 import Section from "./ui/Section";
 
@@ -27,28 +28,33 @@ const About = () => (
 
       {/* Principles read as a numbered list rather than cards: this section
           already carries prose, and a second card grid here would flatten the
-          page's rhythm against Work, Stack and the case study. */}
-      <Reveal stagger as="ol" className="self-start border-t border-hairline">
-        {principles.map((principle, index) => (
-          <li
-            key={principle.id}
-            className="grid grid-cols-[auto_minmax(0,1fr)] gap-x-5 border-b border-hairline py-6"
-          >
-            <span
-              aria-hidden="true"
-              className="font-mono text-body-sm tabular-nums text-faint"
+          page's rhythm against Work, Stack and the case study. The diagram
+          above the list is the one exception — it illustrates the first
+          principle directly rather than decorating the section. */}
+      <div className="self-start">
+        <BoundaryDiagram className="mx-auto mb-10 block h-auto w-full max-w-xs" />
+        <Reveal stagger as="ol" className="border-t border-hairline">
+          {principles.map((principle, index) => (
+            <li
+              key={principle.id}
+              className="grid grid-cols-[auto_minmax(0,1fr)] gap-x-5 border-b border-hairline py-6"
             >
-              {String(index + 1).padStart(2, "0")}
-            </span>
-            <div>
-              <h3 className="text-heading-md text-ink">{principle.title}</h3>
-              <p className="mt-2 text-body-md leading-relaxed text-body">
-                {principle.body}
-              </p>
-            </div>
-          </li>
-        ))}
-      </Reveal>
+              <span
+                aria-hidden="true"
+                className="font-mono text-body-sm tabular-nums text-faint"
+              >
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              <div>
+                <h3 className="text-heading-md text-ink">{principle.title}</h3>
+                <p className="mt-2 text-body-md leading-relaxed text-body">
+                  {principle.body}
+                </p>
+              </div>
+            </li>
+          ))}
+        </Reveal>
+      </div>
     </div>
   </Section>
 );

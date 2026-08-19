@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
 import "./globals.css";
+import { siteUrl } from "@/lib/site";
 import { ThemeProvider } from "./provider";
 
 const inter = Inter({ subsets: ["latin"], display: "swap" });
 
-const siteUrl = "https://alireza-akbarzadeh.vercel.app";
 const title = "Alireza Akbarzadeh — Senior Frontend Engineer";
 const description =
   "Senior Frontend Engineer with six years in production web platforms. Frontend architecture, design systems and performance — React, Next.js and TypeScript.";

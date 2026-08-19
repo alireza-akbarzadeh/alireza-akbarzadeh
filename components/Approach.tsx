@@ -106,7 +106,7 @@ const Card = ({
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="h-full w-full absolute inset-0"
+            style={{width:"100%",height:"100%",position:"absolute",inset:0}}
           >
             {children}
           </motion.div>

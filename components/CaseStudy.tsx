@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { ArrowUpRight } from "lucide-react";
 
 import { getProject } from "@/data/projects";
+import ArchitectureDiagram from "./graphics/ArchitectureDiagram";
 import Section from "./ui/Section";
 import SectionGrid from "./ui/SectionGrid";
 
@@ -23,12 +24,11 @@ const CaseStudy = () => {
       title={project.tagline}
       lede={project.context}
     >
-      {/* No screenshot here by design. The only asset available
-          (public/tapsi.png) is a full-page capture of a marketing banner —
-          cropped to any sensible aspect it shows a promo graphic, not the
-          architecture this section argues for, and its bright fill fights the
-          palette. An architecture diagram or a capture of the admin/vendor
-          panels would earn the space; a storefront promo does not. */}
+      {/* No screenshot here by design — the only capture that existed was a
+          storefront marketing banner, not the architecture this section
+          argues for. The diagram below is that architecture instead. */}
+      <ArchitectureDiagram className="mb-12 block h-auto w-full max-w-2xl" />
+
       <SectionGrid sections={project.sections} />
 
       <a

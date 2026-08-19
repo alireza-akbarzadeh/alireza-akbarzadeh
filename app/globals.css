@@ -14,18 +14,6 @@
 }
 
 @theme {
-  --color-black-100: #000319;
-  --color-black-200: rgba(17, 25, 40, 0.75);
-  --color-black-300: rgba(255, 255, 255, 0.125);
-  --color-black: #000;
-
-  --color-white-100: #bec1dd;
-  --color-white-200: #c1c2d3;
-  --color-white: #fff;
-
-  --color-blue-100: #e4ecff;
-
-  --color-purple: #cbacf9;
   --color-border: hsl(var(--border));
   --color-input: hsl(var(--input));
   --color-ring: hsl(var(--ring));
@@ -107,8 +95,11 @@
   --text-code: 14px;
   --text-code--line-height: 20px;
 
-  --shadow-whisper: var(--shadow-whisper);
-  --shadow-floating: var(--shadow-floating);
+  /* Mapped from theme-scoped raw values under a distinct name: `--shadow-x:
+     var(--shadow-x)` would be self-referential, and the utility would resolve
+     to nothing. Same indirection pattern as the colours above. */
+  --shadow-whisper: var(--elevation-whisper);
+  --shadow-floating: var(--elevation-floating);
 
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 2px);
@@ -118,91 +109,6 @@
   --radius-panel: 16px;
   --radius-pill-category: 64px;
   --radius-pill: 100px;
-
-  --animate-accordion-down: accordion-down 0.2s ease-out;
-  --animate-accordion-up: accordion-up 0.2s ease-out;
-  --animate-spotlight: spotlight 2s ease 0.75s 1 forwards;
-  --animate-shimmer: shimmer 2s linear infinite;
-  --animate-first: moveVertical 30s ease infinite;
-  --animate-second: moveInCircle 20s reverse infinite;
-  --animate-third: moveInCircle 40s linear infinite;
-  --animate-fourth: moveHorizontal 40s ease infinite;
-  --animate-fifth: moveInCircle 20s ease infinite;
-  --animate-scroll: scroll var(--animation-duration, 40s)
-    var(--animation-direction, forwards) linear infinite;
-
-  @keyframes accordion-down {
-    from {
-      height: 0;
-    }
-    to {
-      height: var(--radix-accordion-content-height);
-    }
-  }
-  @keyframes accordion-up {
-    from {
-      height: var(--radix-accordion-content-height);
-    }
-    to {
-      height: 0;
-    }
-  }
-  @keyframes spotlight {
-    0% {
-      opacity: 0;
-      transform: translate(-72%, -62%) scale(0.5);
-    }
-    100% {
-      opacity: 1;
-      transform: translate(-50%, -40%) scale(1);
-    }
-  }
-  @keyframes shimmer {
-    from {
-      background-position: 0 0;
-    }
-    to {
-      background-position: -200% 0;
-    }
-  }
-  @keyframes moveHorizontal {
-    0% {
-      transform: translateX(-50%) translateY(-10%);
-    }
-    50% {
-      transform: translateX(50%) translateY(10%);
-    }
-    100% {
-      transform: translateX(-50%) translateY(-10%);
-    }
-  }
-  @keyframes moveInCircle {
-    0% {
-      transform: rotate(0deg);
-    }
-    50% {
-      transform: rotate(180deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
-  }
-  @keyframes moveVertical {
-    0% {
-      transform: translateY(-50%);
-    }
-    50% {
-      transform: translateY(50%);
-    }
-    100% {
-      transform: translateY(-50%);
-    }
-  }
-  @keyframes scroll {
-    to {
-      transform: translate(calc(-50% - 0.5rem));
-    }
-  }
 }
 
 /*
@@ -237,8 +143,9 @@
  *      link blue, and the optional hero mesh uses original stops instead
  *      of Vercel's literal cyan/blue/violet/magenta/amber recipe.
  *
- * Values are HSL triplets (no `hsl()` wrapper) to match this file's
- * existing `hsl(var(--x))` consumption pattern in tailwind.config.ts.
+ * Values are HSL triplets (no `hsl()` wrapper) so the `@theme` block above
+ * can wrap them as `hsl(var(--x))`. That indirection is what lets `.dark`
+ * re-point a token at runtime without regenerating any utility class.
  */
 @layer base {
   :root {
@@ -289,8 +196,8 @@
     --accent-brand-foreground: 0 0% 100%;
 
     /* Elevation — calibrated per theme; light matches the skill's literal values */
-    --shadow-whisper: 0px 1px 1px rgba(0, 0, 0, 0.04);
-    --shadow-floating: 0px 2px 2px rgba(0, 0, 0, 0.04), 0px 8px 16px -4px rgba(0, 0, 0, 0.08);
+    --elevation-whisper: 0px 1px 1px rgba(0, 0, 0, 0.04);
+    --elevation-floating: 0px 2px 2px rgba(0, 0, 0, 0.04), 0px 8px 16px -4px rgba(0, 0, 0, 0.08);
   }
 
   .dark {
@@ -340,8 +247,8 @@
     /* Black shadows are invisible on a near-black canvas — dark mode needs
        real alpha to register at all; this is the one place the two themes
        diverge in value, not just base color. */
-    --shadow-whisper: 0px 1px 1px rgba(0, 0, 0, 0.4);
-    --shadow-floating: 0px 2px 2px rgba(0, 0, 0, 0.5), 0px 8px 16px -4px rgba(0, 0, 0, 0.6);
+    --elevation-whisper: 0px 1px 1px rgba(0, 0, 0, 0.4);
+    --elevation-floating: 0px 2px 2px rgba(0, 0, 0, 0.5), 0px 8px 16px -4px rgba(0, 0, 0, 0.6);
   }
 }
 

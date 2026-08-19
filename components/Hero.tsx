@@ -3,6 +3,8 @@
 import { useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import { CalendarDays, Layers, TrendingUp } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 
 import { contactEmail, heroFacts } from "@/data";
 import { cn } from "@/lib/utils";
@@ -10,6 +12,9 @@ import HeroCanvas from "./hero/HeroCanvas";
 import { button } from "./ui/Button";
 
 gsap.registerPlugin(useGSAP);
+
+/** Positional, not keyed — heroFacts is a fixed, ordered 3-tuple of stats. */
+const FACT_ICONS: LucideIcon[] = [CalendarDays, Layers, TrendingUp];
 
 const Hero = () => {
   const container = useRef<HTMLElement>(null);
@@ -105,23 +110,27 @@ const Hero = () => {
         </div>
 
         <dl className="mt-20 grid max-w-3xl grid-cols-1 border-t border-hairline sm:grid-cols-3">
-          {heroFacts.map((fact, index) => (
-            <div
-              key={fact.value}
-              data-animate="fact"
-              className={cn(
-                "py-6 sm:px-6 sm:first:pl-0",
-                index > 0 && "border-t border-hairline sm:border-l sm:border-t-0"
-              )}
-            >
-              <dt className="text-2xl font-semibold tracking-tight text-ink md:text-3xl">
-                {fact.value}
-              </dt>
-              <dd className="mt-2 text-body-sm leading-snug text-mute">
-                {fact.label}
-              </dd>
-            </div>
-          ))}
+          {heroFacts.map((fact, index) => {
+            const Icon = FACT_ICONS[index];
+            return (
+              <div
+                key={fact.value}
+                data-animate="fact"
+                className={cn(
+                  "py-6 sm:px-6 sm:first:pl-0",
+                  index > 0 && "border-t border-hairline sm:border-l sm:border-t-0"
+                )}
+              >
+                <Icon aria-hidden="true" className="h-4 w-4 text-faint" />
+                <dt className="mt-3 text-2xl font-semibold tracking-tight text-ink md:text-3xl">
+                  {fact.value}
+                </dt>
+                <dd className="mt-2 text-body-sm leading-snug text-mute">
+                  {fact.label}
+                </dd>
+              </div>
+            );
+          })}
         </dl>
       </div>
     </section>

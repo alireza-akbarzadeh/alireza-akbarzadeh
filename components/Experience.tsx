@@ -1,5 +1,6 @@
 import { workExperience } from "@/data";
 import { cn } from "@/lib/utils";
+import TrajectoryGraphic from "./graphics/TrajectoryGraphic";
 import Reveal from "./ui/Reveal";
 import Section from "./ui/Section";
 
@@ -11,6 +12,7 @@ import Section from "./ui/Section";
  */
 const Experience = () => (
   <Section id="experience" eyebrow="Experience" title="Where I've done the work">
+    <TrajectoryGraphic className="mb-10 ml-auto block h-auto w-40 sm:w-48" />
     <Reveal stagger as="ol" className="border-l border-hairline">
       {workExperience.map((role) => {
         const isCurrent = role.period.includes("Present");
