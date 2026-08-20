@@ -19,9 +19,10 @@ const Contact = () => (
       </h2>
 
       <p className="mt-5 text-body-lg leading-relaxed text-body">
-        I&apos;m open to senior frontend roles, remote. If you&apos;re hiring for
-        frontend architecture, design systems or performance work, I&apos;d like
-        to hear about it.
+        I&apos;m open to senior frontend roles, remote — the kind where I own
+        architecture, not just tickets. If you&apos;re building a frontend
+        platform that needs stronger structure, performance or engineering
+        standards, let&apos;s talk.
       </p>
 
       <a

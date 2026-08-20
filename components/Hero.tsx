@@ -140,9 +140,10 @@ const Hero = () => {
           className="mt-8 max-w-xl text-body-lg leading-relaxed text-body md:mt-9"
         >
           Six years in production web platforms — the last four owning frontend
-          architecture for a high-traffic e-commerce platform. Module boundaries,
+          architecture at Tapsi Shop, a high-traffic e-commerce platform
+          spanning storefront, admin and vendor panels. Module boundaries,
           state ownership, rendering strategy, and the standards that keep a
-          growing codebase maintainable.
+          growing codebase fast to change.
         </p>
 
         <div className="mt-9 flex flex-wrap items-center gap-3 md:mt-10">

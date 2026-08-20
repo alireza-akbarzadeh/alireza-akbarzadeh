@@ -20,7 +20,7 @@ const SelectedWork = () => (
   <Section
     id="projects"
     eyebrow="Selected work"
-    title="Six projects, and what each one had to solve"
+    title={`${projects.length} projects, and what each one had to solve`}
     lede="Production platforms and the side projects where I get to push architecture further than a job usually allows. Each one has a full write-up."
   >
     <Reveal stagger as="ul" className="border-t border-hairline">
