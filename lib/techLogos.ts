@@ -1,9 +1,14 @@
 import {
   IconAccessible,
+  IconActivityHeartbeat,
   IconApi,
   IconBinaryTree,
   IconBolt,
   IconBrandAzure,
+  IconBrandCss3,
+  IconBrandCypress,
+  IconBrandHtml5,
+  IconBrandJavascript,
   IconBrandCloudflare,
   IconBrandDocker,
   IconBrandGithub,
@@ -33,9 +38,13 @@ import {
   IconGauge,
   IconGitBranch,
   IconLayoutGrid,
+  IconPackageExport,
   IconPackages,
   IconPalette,
+  IconPhoto,
+  IconScissors,
   IconShieldCheck,
+  IconShieldExclamation,
   IconSitemap,
   IconStack2,
   IconTerminal2,
@@ -52,10 +61,11 @@ export type TechLogo = {
   label: string;
   Icon: Icon;
   /**
-   * The brand's own hue, surfaced only on hover/focus. At rest every mark is
-   * monochrome ink: forty logos in forty brand colours is a sticker sheet, not
-   * a stack. The colour is the reward for pointing at one, and it is what makes
-   * the grid feel alive without making it loud.
+   * The brand's own hue. Carried at rest — people recognise a stack by the
+   * colour of its logos before they read a single label — and intensified on
+   * hover. A few are darkened from the official value where the real one is
+   * unreadable on white (see JavaScript); the mark still reads as the brand,
+   * which a 1.1:1 icon does not.
    */
   tint: string;
   /**
@@ -157,6 +167,34 @@ const RULES: Array<[test: RegExp, logo: TechLogo]> = [
     { id: "threejs", label: "Three.js", Icon: IconBrandThreejs, tint: "#049EF4" },
   ],
 
+  // ── Bare languages ──
+  //
+  // These sit *below* the frameworks on purpose. "Next.js" ends in "js" and
+  // "Tailwind CSS" ends in "CSS", so a language rule placed first claims both —
+  // which is exactly what happened when they were: every Next.js entry rendered
+  // the JavaScript mark and every Tailwind entry rendered the CSS3 one. The
+  // patterns are anchored as well as reordered, so neither can regress if
+  // something is inserted above them later.
+  [
+    /javascript|es2015|\bes6\b/,
+    {
+      id: "javascript",
+      label: "JavaScript",
+      Icon: IconBrandJavascript,
+      // Darkened from the official #F7DF1E, which is a 1.1:1 icon against white
+      // and effectively invisible in light mode.
+      tint: "#C9A227",
+    },
+  ],
+  [
+    /\bhtml5?\b/,
+    { id: "html", label: "HTML5", Icon: IconBrandHtml5, tint: "#E34F26" },
+  ],
+  [
+    /\bcss3\b|^css$|\bsass\b|\bscss\b/,
+    { id: "css", label: "CSS3", Icon: IconBrandCss3, tint: "#1572B6" },
+  ],
+
   // ── Styling & UI ──
   [
     /tailwind/,
@@ -227,8 +265,22 @@ const RULES: Array<[test: RegExp, logo: TechLogo]> = [
     { id: "playwright", label: "Playwright", Icon: IconTestPipe, tint: "#2EAD33" },
   ],
   [
+    /cypress/,
+    { id: "cypress", label: "Cypress", Icon: IconBrandCypress, tint: "#69D3A7" },
+  ],
+  [
     /vitest|jest/,
     { id: "vitest", label: "Vitest", Icon: IconBrandVite, tint: "#729B1B" },
+  ],
+  [
+    /error boundar|monitoring|observab/,
+    {
+      id: "monitoring",
+      label: "Monitoring",
+      Icon: IconActivityHeartbeat,
+      tint: "#F43F5E",
+      concept: true,
+    },
   ],
   [
     /lighthouse|core web vitals|web vitals/,
@@ -267,6 +319,59 @@ const RULES: Array<[test: RegExp, logo: TechLogo]> = [
   [
     /\bnx\b|turborepo|monorepo/,
     { id: "monorepo", label: "Monorepo", Icon: IconPackages, tint: "#EF4444", concept: true },
+  ],
+  [
+    /bundle analysis|webpack|bundler/,
+    {
+      id: "bundling",
+      label: "Bundle analysis",
+      Icon: IconPackageExport,
+      tint: "#8ED6FB",
+      concept: true,
+    },
+  ],
+  [
+    /code splitting|lazy load/,
+    {
+      id: "splitting",
+      label: "Code splitting",
+      Icon: IconScissors,
+      tint: "#38BDF8",
+      concept: true,
+    },
+  ],
+  [
+    /\bsharp\b|image optimi/,
+    {
+      id: "images",
+      label: "Image pipeline",
+      Icon: IconPhoto,
+      tint: "#99CC00",
+      concept: true,
+    },
+  ],
+  // No rule for "React Profiler": it is React tooling and the React mark is the
+  // most recognisable thing to put on it, which the /\breact\b/ rule already
+  // does. A separate glyph here would only make it harder to identify.
+  [
+    /system design|frontend architecture/,
+    {
+      id: "system-design",
+      label: "System design",
+      Icon: IconSitemap,
+      tint: "#F2A93C",
+      concept: true,
+    },
+  ],
+  [
+    /\bjwt\b|\brbac\b|auth|security/,
+    {
+      id: "auth",
+      label: "Auth",
+      Icon: IconShieldExclamation,
+      tint: "#EAB308",
+      concept: true,
+    },
   ],
   [
     /pnpm/,

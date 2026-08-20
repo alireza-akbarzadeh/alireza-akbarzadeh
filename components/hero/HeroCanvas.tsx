@@ -17,22 +17,27 @@ const HeroScene = dynamic(() => import("./HeroScene"), { ssr: false });
 
 const HeroCanvas = () => {
   const reducedMotion = useMediaQuery("(prefers-reduced-motion: reduce)");
-  const isCoarse = useMediaQuery("(pointer: coarse)");
-  const isNarrow = useMediaQuery("(max-width: 640px)");
+  // The field lives in the space to the right of the headline. Below the lg
+  // breakpoint there is no such space — the copy runs the full width — and the
+  // field lands on top of the paragraph as speckle instead of beside it as
+  // atmosphere. This used to be gated on `(max-width: 640px) and (pointer:
+  // coarse)`, which described the battery cost but not the layout: a 900px
+  // window with a mouse still has nowhere to put it.
+  const hasRoom = useMediaQuery("(min-width: 1024px)");
   const { resolvedTheme } = useTheme();
 
   // Undetermined yet (first paint / SSR): render nothing rather than guess.
-  if (reducedMotion === null) return null;
+  if (reducedMotion === null || hasRoom === null) return null;
 
-  // Small touch devices get the CSS gradient only — WebGL costs more battery
-  // and frame budget there than the effect is worth.
-  if (isNarrow && isCoarse) return null;
+  // Narrow viewports get the flat canvas only. That also spares small touch
+  // devices the battery and frame-budget cost of WebGL, which is the other
+  // reason not to run it there.
+  if (!hasRoom) return null;
 
   const isDark = resolvedTheme !== "light";
 
   // Masked off-centre to the right: the headline is left-aligned, so the field
-  // sits beside the type rather than behind it, held well below full strength
-  // so it never competes with the LCP element for attention.
+  // sits beside the type rather than behind it.
   //
   // Light gets a tighter mask pushed further right, not just a lower opacity.
   // Dark marks on a pale canvas stay legible much deeper into the falloff than
@@ -40,23 +45,29 @@ const HeroCanvas = () => {
   // reads as speckle across the paragraph in light — the fix is where the field
   // is allowed to reach, not only how strongly it renders.
   //
-  // The light stop has since been opened up from 8%/58%: part of what made the
-  // field read as speckle was a colour-space bug in HeroScene that landed
-  // #d4d4d8 on screen as rgb(168,168,175), far darker than the token. With the
-  // encode corrected the points are genuinely pale and no longer need to be
-  // masked almost entirely away — the asymmetry with dark stays, the severity
-  // does not.
+  // Both stops have since been opened up substantially. Held at 18%/72% and
+  // half opacity the field was invisible in light and a smudge in dark, which
+  // is the worst outcome available: the full cost of shipping three.js and none
+  // of the effect. Now that the headline carries the fold on its own there is
+  // no longer an LCP element to protect it from, so the field is allowed to
+  // reach a strength where the amber crests actually read.
+  //
+  // `w-screen` + the centring translate breaks the canvas out of `main`'s
+  // max-w-6xl: the field is atmosphere and wants the viewport's full width, and
+  // clipping it to the text container put a visible straight edge on it.
   return (
     <div
       aria-hidden="true"
       className={
         isDark
-          ? "pointer-events-none absolute inset-0 -z-10 opacity-50 mask-[radial-gradient(ellipse_at_72%_45%,black_18%,transparent_72%)]"
-          : "pointer-events-none absolute inset-0 -z-10 opacity-60 mask-[radial-gradient(ellipse_at_80%_46%,black_14%,transparent_66%)]"
+          ? "pointer-events-none absolute inset-y-0 left-1/2 -z-10 w-screen -translate-x-1/2 opacity-90 mask-[radial-gradient(ellipse_58%_62%_at_76%_42%,black_0%,black_36%,transparent_78%)]"
+          : "pointer-events-none absolute inset-y-0 left-1/2 -z-10 w-screen -translate-x-1/2 opacity-90 mask-[radial-gradient(ellipse_52%_58%_at_82%_40%,black_0%,black_30%,transparent_74%)]"
       }
     >
+      {/* Density is fixed now that the canvas only ever renders at >=1024px —
+          the narrow-screen step down had no viewport left to apply to. */}
       <HeroScene
-        density={isNarrow ? 64 : 96}
+        density={96}
         animate={!reducedMotion}
         theme={isDark ? "dark" : "light"}
       />

@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 
-
+import { Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
@@ -8,7 +8,25 @@ import "./globals.css";
 import { siteUrl } from "@/lib/site";
 import { ThemeProvider } from "./provider";
 
-const inter = { className: "font-sans" };
+/**
+ * Inter, actually loaded.
+ *
+ * `--font-sans` named Inter for a long time while nothing ever fetched it, so
+ * the site rendered in Inter only for visitors who happen to have it installed
+ * locally and in Arial for everyone else. That was survivable while the largest
+ * type on the page was 72px; the hero headline is now half again that size, and
+ * at display sizes the difference between Inter's tight, flat-sided grotesque
+ * and Arial's wider, rounder one is the whole character of the page.
+ *
+ * Self-hosted by next/font (no request to Google at runtime), `display: swap`
+ * so the headline is never invisible, and exposed as a variable so `--font-sans`
+ * in globals.css stays the single place the family is declared.
+ */
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-inter",
+});
 
 const title = "Alireza Akbarzadeh — Senior Frontend Engineer";
 const description =
@@ -64,9 +82,14 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // The font variable has to land on <html>, not <body>: Tailwind declares
+  // --font-sans on :root, and a custom property referenced from a declaration is
+  // substituted where that declaration lives. With --font-inter defined one level
+  // down on <body>, --font-sans resolved against nothing at :root, went invalid,
+  // and every font-sans element silently fell back to the UA stack.
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={inter.className}>
+    <html lang="en" className={inter.variable} suppressHydrationWarning>
+      <body className="font-sans">
         <a
           href="#main"
           className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-60 focus:rounded-button focus:border focus:border-hairline focus:bg-canvas-elevated focus:px-4 focus:py-2 focus:text-label-sm focus:text-ink"

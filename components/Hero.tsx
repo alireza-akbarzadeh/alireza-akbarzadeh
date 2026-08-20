@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import { ArrowDown, ArrowRight } from "lucide-react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 
@@ -12,6 +13,40 @@ import CountUp from "./ui/CountUp";
 
 gsap.registerPlugin(useGSAP);
 
+/**
+ * `min(100svh, 54rem)` rather than a bare `100svh`.
+ *
+ * On a laptop the two are identical and the hero fills the fold. On a tall
+ * window — 1440x1630 is unremarkable on a large display — an uncapped 100svh
+ * stretched this section to 1630px and centred ~700px of content inside it,
+ * marooning the headline in a void with 460px of dead canvas above and below.
+ * Capping the stretch spends the extra height on showing the top of the next
+ * section instead, which is also the strongest scroll cue available.
+ *
+ * It stays a *min*-height, so content that outgrows the cap — large text
+ * settings, browser zoom — pushes the section taller rather than overflowing it.
+ */
+const HERO_HEIGHT =
+  "relative isolate flex min-h-[min(100svh,54rem)] flex-col pt-28 pb-10 md:pt-32 md:pb-12";
+
+/**
+ * One line of the headline, in two nested elements.
+ *
+ * The outer span is the mask and the inner one is what moves: sliding the inner
+ * span up from below its own box makes the line appear to be uncovered rather
+ * than to fade in, which is the difference between type that arrives and type
+ * that is simply there. `overflow-hidden` on a line box also clips descenders —
+ * "stay" and "change" both have one — so the mask is given a descender's worth
+ * of extra height and then pulled back out of the layout by the same amount.
+ */
+const Line = ({ children }: { children: React.ReactNode }) => (
+  <span className="block overflow-hidden pb-[0.12em] mb-[-0.12em]">
+    <span data-animate="line" className="block">
+      {children}
+    </span>
+  </span>
+);
+
 const Hero = () => {
   const container = useRef<HTMLElement>(null);
 
@@ -21,7 +56,7 @@ const Hero = () => {
 
       // Respect the OS setting: reveal everything, skip the choreography.
       mm.add("(prefers-reduced-motion: reduce)", () => {
-        gsap.set("[data-animate]", { opacity: 1, y: 0, filter: "none" });
+        gsap.set("[data-animate]", { opacity: 1, y: 0, yPercent: 0 });
       });
 
       mm.add("(prefers-reduced-motion: no-preference)", () => {
@@ -29,23 +64,27 @@ const Hero = () => {
           defaults: { ease: "power3.out", duration: 0.9 },
         });
 
-        tl.from("[data-animate='eyebrow']", { opacity: 0, y: 14, duration: 0.6 })
+        tl.from("[data-animate='eyebrow']", { opacity: 0, y: 12, duration: 0.5 })
+          // power4 and a long duration on the headline only: this is the one
+          // element allowed to take its time, and the deep ease is what keeps a
+          // 100px+ line from feeling like it slams into place.
           .from(
             "[data-animate='line']",
-            { opacity: 0, y: 42, filter: "blur(12px)", stagger: 0.12 },
-            "-=0.25"
+            { yPercent: 112, duration: 1.15, ease: "power4.out", stagger: 0.085 },
+            "-=0.2"
           )
-          .from("[data-animate='lede']", { opacity: 0, y: 20 }, "-=0.55")
+          .from("[data-animate='lede']", { opacity: 0, y: 18 }, "-=0.75")
           .from(
             "[data-animate='cta']",
-            { opacity: 0, y: 18, stagger: 0.1 },
-            "-=0.6"
+            { opacity: 0, y: 16, stagger: 0.08 },
+            "-=0.7"
           )
           .from(
             "[data-animate='fact']",
-            { opacity: 0, y: 16, stagger: 0.08 },
-            "-=0.65"
-          );
+            { opacity: 0, y: 14, stagger: 0.07 },
+            "-=0.7"
+          )
+          .from("[data-animate='scroll']", { opacity: 0, duration: 0.6 }, "-=0.4");
 
         return () => tl.kill();
       });
@@ -57,44 +96,66 @@ const Hero = () => {
     <section
       ref={container}
       id="top"
-      className="relative isolate flex min-h-[92svh] items-center py-32 md:py-40"
+      className={HERO_HEIGHT}
     >
       <HeroCanvas />
 
-      <div className="relative z-10 w-full">
-        <p
-          data-animate="eyebrow"
-          className="text-mono-eyebrow font-mono uppercase tracking-widest text-mute"
-        >
-          Senior Frontend Engineer · Tehran
+      {/* The headline block is optically centred in whatever height is left over
+          once the fixed nav and the proof rail have taken theirs, so the fold
+          composes at any viewport height instead of at one design size. */}
+      <div className="relative z-10 flex flex-1 flex-col justify-center">
+        <p data-animate="eyebrow">
+          <span className="inline-flex items-center gap-2.5 rounded-pill border border-hairline bg-canvas-elevated/60 py-1.5 pl-3 pr-4 backdrop-blur-sm">
+            <span
+              aria-hidden="true"
+              className="size-1.5 shrink-0 rounded-full bg-accent-brand"
+            />
+            <span className="text-mono-eyebrow font-mono uppercase tracking-widest text-body">
+              Senior Frontend Engineer · Tehran
+            </span>
+          </span>
         </p>
 
-        <h1 className="mt-6 max-w-4xl text-[2.5rem] font-semibold leading-[1.05] tracking-tighter text-ink sm:text-6xl lg:text-7xl">
-          <span data-animate="line" className="block">
-            I build frontends
-          </span>
-          <span data-animate="line" className="block">
-            that stay fast to change.
-          </span>
+        {/*
+          The headline is the whole hero now. It was set at 72px in a column that
+          left the right third of the fold empty — at this size it spans the
+          measure, so there is no dead column left to notice.
+
+          clamp() rather than breakpoints because the ceiling is a *container*
+          constraint, not a viewport one: past ~1250px `main` stops widening at
+          max-w-6xl, so letting vw keep growing would wrap the longest line. The
+          6.75rem cap is the largest size at which "I build frontends" still sits
+          on one line inside that container.
+        */}
+        <h1 className="mt-7 text-[clamp(2.25rem,8.6vw,6.75rem)] font-bold leading-[0.92] tracking-[-0.045em] text-ink">
+          <Line>I build frontends</Line>
+          <Line>
+            that stay <span className="text-accent-brand">fast</span>
+          </Line>
+          <Line>to change.</Line>
         </h1>
 
         <p
           data-animate="lede"
-          className="mt-8 max-w-2xl text-body-lg leading-relaxed text-body"
+          className="mt-8 max-w-xl text-body-lg leading-relaxed text-body md:mt-9"
         >
           Six years in production web platforms — the last four owning frontend
-          architecture for a high-traffic e-commerce platform. Module
-          boundaries, state ownership, rendering strategy, and the standards
-          that keep a growing codebase maintainable.
+          architecture for a high-traffic e-commerce platform. Module boundaries,
+          state ownership, rendering strategy, and the standards that keep a
+          growing codebase maintainable.
         </p>
 
-        <div className="mt-10 flex flex-wrap items-center gap-3">
+        <div className="mt-9 flex flex-wrap items-center gap-3 md:mt-10">
           <a
             href="#projects"
             data-animate="cta"
-            className={button({ variant: "primary", shape: "pill" })}
+            className={cn(button({ variant: "primary", shape: "pill" }), "group")}
           >
             See my work
+            <ArrowRight
+              aria-hidden="true"
+              className="size-4 transition-transform duration-200 group-hover:translate-x-0.5 motion-reduce:transition-none"
+            />
           </a>
           <a
             href={`mailto:${contactEmail}`}
@@ -104,26 +165,39 @@ const Hero = () => {
             Get in touch
           </a>
         </div>
+      </div>
 
-        <dl className="mt-20 grid max-w-3xl grid-cols-1 border-t border-hairline sm:grid-cols-3">
-          {heroFacts.map((fact, index) => (
-            <div
-              key={fact.value}
-              data-animate="fact"
-              className={cn(
-                "py-6 sm:px-6 sm:first:pl-0",
-                index > 0 && "border-t border-hairline sm:border-l sm:border-t-0"
-              )}
-            >
-              <dt className="text-2xl font-semibold tracking-tight text-ink md:text-3xl">
-                <CountUp value={fact.value} />
-              </dt>
-              <dd className="mt-2 text-body-sm leading-snug text-mute">
-                {fact.label}
-              </dd>
-            </div>
-          ))}
-        </dl>
+      {/* Proof rail, pinned to the foot of the fold rather than floating in the
+          middle of it — the numbers are the last thing read before the scroll,
+          and the rule under them is what tells you there is a scroll. */}
+      <div className="relative z-10 mt-14 border-t border-hairline pt-7">
+        <div className="flex items-end justify-between gap-6">
+          <dl className="grid flex-1 grid-cols-3 gap-x-5 sm:flex-none sm:gap-x-14">
+            {heroFacts.map((fact) => (
+              <div key={fact.value} data-animate="fact">
+                <dt className="text-xl font-semibold tracking-tight text-ink tabular-nums sm:text-2xl md:text-3xl">
+                  <CountUp value={fact.value} />
+                </dt>
+                <dd className="mt-1.5 text-body-sm leading-snug text-mute">
+                  {fact.label}
+                </dd>
+              </div>
+            ))}
+          </dl>
+
+          <a
+            href="#about"
+            data-animate="scroll"
+            aria-label="Scroll to the About section"
+            className="group hidden shrink-0 items-center gap-2 rounded-button pb-1 text-mono-eyebrow font-mono uppercase tracking-widest text-mute transition-colors hover:text-ink focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-accent-brand focus-visible:ring-offset-4 focus-visible:ring-offset-canvas sm:inline-flex"
+          >
+            Scroll
+            <ArrowDown
+              aria-hidden="true"
+              className="size-3.5 animate-bounce group-hover:animate-none motion-reduce:animate-none"
+            />
+          </a>
+        </div>
       </div>
     </section>
   );

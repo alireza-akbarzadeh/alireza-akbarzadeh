@@ -150,12 +150,12 @@ const PALETTES: Record<
     low: "#3f3f46",
     high: "#F2A93C",
     blending: THREE.AdditiveBlending,
-    // Retuned down from 0.6 alongside the colour-space fix below. These hex
-    // values were previously reaching the framebuffer un-encoded and therefore
-    // far darker than written — #3f3f46 arrived as rgb(13,13,16). Correcting
-    // the encode made the field roughly five times more present, so the alpha
-    // has to come down to keep it the quiet backdrop the hero was designed as.
-    alpha: 0.42,
+    // Back up from 0.42. That value dated from the hero's previous composition,
+    // where the field had to stay out of the way of a headline set beside it.
+    // The headline is now large enough to hold the fold by itself, and a
+    // particle field nobody can see is pure cost — see HeroCanvas for the
+    // matching mask change.
+    alpha: 0.72,
     shade: [0.5, 1.15],
   },
   light: {
@@ -165,7 +165,10 @@ const PALETTES: Record<
     low: "#d4d4d8",
     high: "#C9942E",
     blending: THREE.NormalBlending,
-    alpha: 0.55,
+    // Light needs to be driven harder than dark for the same apparent presence:
+    // normal blending onto a near-white canvas has no glow to lean on, so the
+    // points only exist to the extent they actually darken the paper.
+    alpha: 0.82,
     shade: [1.1, 0.66],
   },
 };

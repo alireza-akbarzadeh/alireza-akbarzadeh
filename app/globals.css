@@ -57,7 +57,10 @@
   --color-accent-brand-soft: hsl(var(--accent-brand-soft));
   --color-accent-brand-foreground: hsl(var(--accent-brand-foreground));
 
-  --font-sans: Inter, Arial, sans-serif;
+  /* `--font-inter` is the self-hosted face wired up in app/layout.tsx; the bare
+     `Inter` behind it covers a locally installed copy if the webfont is still
+     in flight, and Arial is the last resort. */
+  --font-sans: var(--font-inter), Inter, Arial, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
   --text-display-xl: 48px;
