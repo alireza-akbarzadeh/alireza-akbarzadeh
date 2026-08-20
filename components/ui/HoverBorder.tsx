@@ -10,7 +10,7 @@ export function HoverBorderGradient({
   children,
   containerClassName,
   className,
-  as: Tag = "button",
+  as = "button",
   duration = 1,
   clockwise = true,
   ...props
@@ -23,6 +23,13 @@ export function HoverBorderGradient({
     clockwise?: boolean;
   } & React.HTMLAttributes<HTMLElement>
 >) {
+  // Narrowed from React.ElementType: the bare union of every intrinsic tag
+  // collapses each JSX prop to `never`, so the render uses a single concrete
+  // signature and the polymorphism stays in the public `as` prop.
+  const Tag = as as React.ComponentType<
+    React.PropsWithChildren<React.HTMLAttributes<HTMLElement>>
+  >;
+
   const [hovered, setHovered] = useState<boolean>(false);
   const [direction, setDirection] = useState<Direction>("TOP");
 
@@ -57,9 +64,7 @@ export function HoverBorderGradient({
   }, [hovered]);
   return (
     <Tag
-      onMouseEnter={(event: React.MouseEvent<HTMLDivElement>) => {
-        setHovered(true);
-      }}
+      onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       className={cn(
         "relative flex rounded-full border  content-center bg-black/20 hover:bg-black/10 transition duration-500 dark:bg-white/20 items-center flex-col flex-nowrap gap-10 h-min justify-center overflow-visible p-px decoration-clone w-fit",

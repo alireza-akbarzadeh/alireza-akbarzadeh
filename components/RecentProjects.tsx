@@ -12,22 +12,28 @@ const RecentProjects = () => {
         Selected <span className="text-purple">work</span>
       </h2>
       <div className="flex flex-wrap items-center justify-center p-4 gap-16 mt-10">
-        {projects.map((item) => (
+        {projects.map((item) => {
+          // The row links to the first declared link — a project's primary
+          // destination — and falls back to nothing rather than a dead href.
+          const primaryLink = item.links[0];
+          const shot = item.shots?.[0];
+
+          return (
           <div
             className="lg:min-h-[32.5rem] h-[25rem] flex items-center justify-center sm:w-96 w-[80vw]"
-            key={item.id}
+            key={item.slug}
           >
-            <PinContainer title={item.linkLabel} href={item.link}>
+            <PinContainer title={primaryLink?.label} href={primaryLink?.href}>
               <div className="relative flex items-center justify-center sm:w-96 w-[80vw] overflow-hidden h-[20vh] lg:h-[30vh] mb-10">
                 <div
                   className="relative w-full h-full overflow-hidden lg:rounded-3xl flex items-center justify-center"
                   style={{ backgroundColor: "#13162D" }}
                 >
-                  {item.img ? (
+                  {shot ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img
-                      src={item.img}
-                      alt={`${item.title} interface`}
+                      src={shot.src}
+                      alt={shot.alt}
                       className="w-full h-full object-cover"
                     />
                   ) : (
@@ -49,7 +55,7 @@ const RecentProjects = () => {
                   margin: "1vh 0",
                 }}
               >
-                {item.des}
+                {item.summary}
               </p>
 
               <div className="flex items-center justify-between mt-7 mb-3 gap-4">
@@ -73,7 +79,8 @@ const RecentProjects = () => {
               </div>
             </PinContainer>
           </div>
-        ))}
+          );
+        })}
       </div>
     </section>
   );
