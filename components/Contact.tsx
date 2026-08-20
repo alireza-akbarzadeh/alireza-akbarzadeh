@@ -1,6 +1,7 @@
 import { contactEmail } from "@/data";
 import Reveal from "./ui/Reveal";
 import { button } from "./ui/Button";
+import MagneticButton from "./ui/MagneticButton";
 
 /**
  * The one centred band on the page. Every other section is left-aligned, so
@@ -25,12 +26,17 @@ const Contact = () => (
         standards, let&apos;s talk.
       </p>
 
-      <a
-        href={`mailto:${contactEmail}`}
-        className={`${button({ variant: "primary", shape: "pill" })} mt-10`}
-      >
-        Get in touch
-      </a>
+      {/* The last action on the page, and the only magnetic control outside the
+          hero — the two ends of the argument get the emphasis, nothing between
+          them does. */}
+      <MagneticButton className="mt-10">
+        <a
+          href={`mailto:${contactEmail}`}
+          className={button({ variant: "primary", shape: "pill" })}
+        >
+          Get in touch
+        </a>
+      </MagneticButton>
 
       <a
         href={`mailto:${contactEmail}`}

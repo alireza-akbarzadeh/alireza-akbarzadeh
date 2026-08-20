@@ -7,6 +7,7 @@ import { contactEmail, navItems } from "@/data";
 import { cn } from "@/lib/utils";
 import { button } from "./ui/Button";
 import ThemeToggle from "./ui/ThemeToggle";
+import Link from "next/link";
 
 /**
  * Section ids that should light up a nav item other than their own. The case
@@ -134,10 +135,20 @@ const Nav = () => {
                     href={hrefFor(item.link)}
                     aria-current={isActive ? "true" : undefined}
                     className={cn(
-                      "rounded-button px-3 py-2 text-label-sm transition-colors",
+                      "relative rounded-button px-3 py-2 text-label-sm transition-colors",
+                      // A hairline that grows from the left under the label:
+                      // hover previews it, the active section holds it. Pure
+                      // CSS on purpose — a sliding indicator element would need
+                      // a ResizeObserver and a layout read on every scroll-spy
+                      // update to communicate exactly the same thing.
+                      "after:absolute after:inset-x-3 after:bottom-1 after:h-px after:origin-left after:bg-accent-brand",
+                      "after:transition-transform after:duration-300 after:ease-out-quart",
+                      "motion-reduce:after:transition-none",
                       "focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-accent-brand",
                       "focus-visible:ring-offset-2 focus-visible:ring-offset-canvas",
-                      isActive ? "text-ink" : "text-body hover:text-ink"
+                      isActive
+                        ? "text-ink after:scale-x-100"
+                        : "text-body after:scale-x-0 hover:text-ink hover:after:scale-x-100"
                     )}
                   >
                     {item.name}
@@ -145,6 +156,26 @@ const Nav = () => {
                 </li>
               );
             })}
+        <li>
+  <Link
+    href="/resume"
+    data-animate="cta"
+    aria-current={pathname === "/resume" ? "page" : undefined}
+    className={cn(
+      "relative rounded-button px-3 py-2 text-label-sm transition-colors",
+      "after:absolute after:inset-x-3 after:bottom-1 after:h-px after:origin-left after:bg-accent-brand",
+      "after:transition-transform after:duration-300 after:ease-out-quart",
+      "motion-reduce:after:transition-none",
+      "focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-accent-brand",
+      "focus-visible:ring-offset-2 focus-visible:ring-offset-canvas",
+      pathname === "/resume"
+        ? "text-ink after:scale-x-100"
+        : "text-body after:scale-x-0 hover:text-ink hover:after:scale-x-100",
+    )}
+  >
+    Resume
+  </Link>
+</li>
           </ul>
 
           <ThemeToggle className="ml-1" />

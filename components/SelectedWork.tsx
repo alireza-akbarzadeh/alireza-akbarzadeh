@@ -1,11 +1,7 @@
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
-
 import { projects } from "@/data/projects";
 import Reveal from "./ui/Reveal";
 import Section from "./ui/Section";
-import TechLogo from "./ui/TechLogo";
-import ProjectMotif from "./work/ProjectMotif";
+import ProjectRow from "./work/ProjectRow";
 
 /**
  * Projects render as a list rather than a card grid on purpose: a list reads as
@@ -15,6 +11,10 @@ import ProjectMotif from "./work/ProjectMotif";
  * Rows link to the internal case study rather than straight out to GitHub. The
  * external link is one click further in, on the detail page, so a reviewer
  * reads the reasoning before landing in a source tree.
+ *
+ * The row itself is a client component (see ProjectRow) because it carries the
+ * pointer-tracked hover treatment. Everything above it — the section, the
+ * heading, the ordering — stays on the server.
  */
 const SelectedWork = () => (
   <Section
@@ -25,59 +25,7 @@ const SelectedWork = () => (
   >
     <Reveal stagger as="ul" className="border-t border-hairline">
       {projects.map((project, index) => (
-        <li key={project.slug} className="group border-b border-hairline">
-          <Link
-            href={`/work/${project.slug}`}
-            className="grid gap-x-8 gap-y-5 py-10 md:grid-cols-[3rem_minmax(0,1fr)] lg:grid-cols-[3rem_minmax(0,1fr)_14rem] focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-accent-brand focus-visible:ring-offset-4 focus-visible:ring-offset-canvas"
-          >
-            <span
-              aria-hidden="true"
-              className="hidden font-mono text-body-sm tabular-nums text-faint md:block md:pt-2"
-            >
-              {String(index + 1).padStart(2, "0")}
-            </span>
-
-            <div>
-              <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
-                <h3 className="text-2xl font-semibold tracking-tight text-ink md:text-3xl">
-                  {project.title}
-                </h3>
-
-                <span className="inline-flex items-center gap-1.5 font-mono text-body-sm text-mute transition-colors group-hover:text-accent-brand">
-                  Read case study
-                  <ArrowRight
-                    aria-hidden="true"
-                    className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5"
-                  />
-                </span>
-              </div>
-
-              <p className="mt-2 font-mono text-body-sm text-faint">
-                {project.year} · {project.role}
-              </p>
-
-              <p className="mt-4 max-w-2xl text-body-md leading-relaxed text-body">
-                {project.summary}
-              </p>
-
-              <ul className="mt-5 flex flex-wrap gap-2">
-                {project.stack.map((tech) => (
-                  <TechLogo key={tech} name={tech} />
-                ))}
-              </ul>
-            </div>
-
-            {/* Generated per project, not a screenshot stand-in — see
-                ProjectMotif. It gives the row a visual anchor and makes the
-                list scannable by shape as well as by title. Hidden below lg:
-                at narrow widths it would push the actual content down. */}
-            <div className="hidden self-center overflow-hidden rounded-card border border-hairline bg-canvas-elevated lg:block">
-              <div className="aspect-[16/10] p-1 opacity-80 transition-opacity duration-300 group-hover:opacity-100">
-                <ProjectMotif slug={project.slug} />
-              </div>
-            </div>
-          </Link>
-        </li>
+        <ProjectRow key={project.slug} project={project} index={index} />
       ))}
     </Reveal>
   </Section>

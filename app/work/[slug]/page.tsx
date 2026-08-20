@@ -249,6 +249,7 @@ export default async function ProjectPage({ params }: Params) {
         >
           <Link
             href={`/work/${next.slug}`}
+            data-cursor={next.title}
             className="group flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2 rounded-button focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-accent-brand focus-visible:ring-offset-4 focus-visible:ring-offset-canvas"
           >
             <span className="font-mono text-mono-eyebrow uppercase tracking-widest text-mute">

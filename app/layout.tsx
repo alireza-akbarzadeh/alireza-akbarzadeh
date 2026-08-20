@@ -6,6 +6,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import "./globals.css";
 import { siteUrl } from "@/lib/site";
+import Cursor from "@/components/ui/Cursor";
 import { ThemeProvider } from "./provider";
 
 /**
@@ -103,6 +104,12 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           {children}
+
+          {/* Mounted once at the root rather than per page, so the contextual
+              cursor survives client navigation between the home page and a case
+              study instead of being torn down and rebuilt. It renders nothing
+              at all on touch devices and under prefers-reduced-motion. */}
+          <Cursor />
         </ThemeProvider>
 
         {/*

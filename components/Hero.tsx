@@ -3,15 +3,18 @@
 import { useRef } from "react";
 import { ArrowDown, ArrowRight } from "lucide-react";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 
 import { contactEmail, heroFacts } from "@/data";
+import { DURATION, EASE, STAGGER } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 import HeroCanvas from "./hero/HeroCanvas";
 import { button } from "./ui/Button";
 import CountUp from "./ui/CountUp";
+import MagneticButton from "./ui/MagneticButton";
 
-gsap.registerPlugin(useGSAP);
+gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 /**
  * `min(100svh, 54rem)` rather than a bare `100svh`.
@@ -61,49 +64,86 @@ const Hero = () => {
 
       mm.add("(prefers-reduced-motion: no-preference)", () => {
         const tl = gsap.timeline({
-          defaults: { ease: "power3.out", duration: 0.9 },
+          defaults: { ease: EASE.out, duration: 0.9 },
         });
 
-        tl.from("[data-animate='eyebrow']", { opacity: 0, y: 12, duration: 0.5 })
+        tl.from("[data-animate='eyebrow']", {
+          opacity: 0,
+          y: 12,
+          duration: DURATION.base,
+        })
           // power4 and a long duration on the headline only: this is the one
           // element allowed to take its time, and the deep ease is what keeps a
           // 100px+ line from feeling like it slams into place.
           .from(
             "[data-animate='line']",
-            { yPercent: 112, duration: 1.15, ease: "power4.out", stagger: 0.085 },
+            {
+              yPercent: 112,
+              duration: DURATION.display,
+              ease: EASE.display,
+              stagger: STAGGER.loose,
+            },
             "-=0.2"
           )
           .from("[data-animate='lede']", { opacity: 0, y: 18 }, "-=0.75")
           .from(
             "[data-animate='cta']",
-            { opacity: 0, y: 16, stagger: 0.08 },
+            { opacity: 0, y: 16, stagger: STAGGER.base },
             "-=0.7"
           )
           .from(
             "[data-animate='fact']",
-            { opacity: 0, y: 14, stagger: 0.07 },
+            { opacity: 0, y: 14, stagger: STAGGER.base },
             "-=0.7"
           )
-          .from("[data-animate='scroll']", { opacity: 0, duration: 0.6 }, "-=0.4");
+          .from(
+            "[data-animate='scroll']",
+            { opacity: 0, duration: DURATION.base },
+            "-=0.4"
+          );
 
-        return () => tl.kill();
+        /**
+         * The headline block drifts up and dissolves as the fold is scrolled
+         * past, so the hero hands off to the page rather than sliding out of it
+         * rigidly. Scrubbed, not triggered — it is tied to scroll position, so
+         * scrolling back up puts it exactly where it was.
+         *
+         * Only the headline block moves. The proof rail below it holds its
+         * position, which is what keeps the numbers legible right up to the
+         * moment they leave the viewport.
+         */
+        const parallax = gsap.to("[data-hero-content]", {
+          yPercent: -14,
+          opacity: 0.18,
+          ease: "none",
+          scrollTrigger: {
+            trigger: container.current,
+            start: "top top",
+            end: "bottom top",
+            scrub: 0.5,
+          },
+        });
+
+        return () => {
+          tl.kill();
+          parallax.kill();
+        };
       });
     },
     { scope: container }
   );
 
   return (
-    <section
-      ref={container}
-      id="top"
-      className={HERO_HEIGHT}
-    >
+    <section ref={container} id="top" className={HERO_HEIGHT}>
       <HeroCanvas />
 
       {/* The headline block is optically centred in whatever height is left over
           once the fixed nav and the proof rail have taken theirs, so the fold
           composes at any viewport height instead of at one design size. */}
-      <div className="relative z-10 flex flex-1 flex-col justify-center">
+      <div
+        data-hero-content
+        className="relative z-10 flex flex-1 flex-col justify-center"
+      >
         <p data-animate="eyebrow">
           <span className="inline-flex items-center gap-2.5 rounded-pill border border-hairline bg-canvas-elevated/60 py-1.5 pl-3 pr-4 backdrop-blur-sm">
             <span
@@ -147,24 +187,36 @@ const Hero = () => {
         </p>
 
         <div className="mt-9 flex flex-wrap items-center gap-3 md:mt-10">
-          <a
-            href="#projects"
-            data-animate="cta"
-            className={cn(button({ variant: "primary", shape: "pill" }), "group")}
-          >
-            See my work
-            <ArrowRight
-              aria-hidden="true"
-              className="size-4 transition-transform duration-200 group-hover:translate-x-0.5 motion-reduce:transition-none"
-            />
-          </a>
-          <a
-            href={`mailto:${contactEmail}`}
-            data-animate="cta"
-            className={button({ variant: "secondary", shape: "pill" })}
-          >
-            Get in touch
-          </a>
+          {/* Magnetic on both hero CTAs, and nowhere else on the page except
+              the contact close. The transform lands on the wrapper while the
+              entrance timeline animates `y` on the anchor inside it, so the two
+              never write to the same element. */}
+          <MagneticButton>
+            <a
+              href="#projects"
+              data-animate="cta"
+              className={cn(
+                button({ variant: "primary", shape: "pill" }),
+                "group"
+              )}
+            >
+              See my work
+              <ArrowRight
+                aria-hidden="true"
+                className="size-4 transition-transform duration-200 group-hover:translate-x-0.5 motion-reduce:transition-none"
+              />
+            </a>
+          </MagneticButton>
+
+          <MagneticButton>
+            <a
+              href={`mailto:${contactEmail}`}
+              data-animate="cta"
+              className={button({ variant: "secondary", shape: "pill" })}
+            >
+              Get in touch
+            </a>
+          </MagneticButton>
         </div>
       </div>
 

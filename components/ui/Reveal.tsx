@@ -5,6 +5,8 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 
+import { DURATION, EASE, REVEAL_START, STAGGER } from "@/lib/motion";
+
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 type RevealProps = {
@@ -45,13 +47,13 @@ export const Reveal = ({
         const tween = gsap.from(targets, {
           opacity: 0,
           y: 28,
-          duration: 0.8,
+          duration: DURATION.reveal,
           delay,
-          ease: "power3.out",
-          stagger: stagger ? 0.1 : 0,
+          ease: EASE.out,
+          stagger: stagger ? STAGGER.loose : 0,
           scrollTrigger: {
             trigger: ref.current,
-            start: "top 85%",
+            start: REVEAL_START,
             once: true,
           },
         });

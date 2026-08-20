@@ -55,13 +55,18 @@ const HeroCanvas = () => {
   // `w-screen` + the centring translate breaks the canvas out of `main`'s
   // max-w-6xl: the field is atmosphere and wants the viewport's full width, and
   // clipping it to the text container put a visible straight edge on it.
+  // The field is the last beat of the hero's entrance, not the first thing on
+  // screen: it fades up over 1.4s once the canvas has actually mounted, which is
+  // some way after hydration. Owning that here rather than in the hero's GSAP
+  // timeline is deliberate — the timeline runs on mount and would have finished
+  // long before this component decided whether it was rendering at all.
   return (
     <div
       aria-hidden="true"
       className={
         isDark
-          ? "pointer-events-none absolute inset-y-0 left-1/2 -z-10 w-screen -translate-x-1/2 opacity-90 mask-[radial-gradient(ellipse_58%_62%_at_76%_42%,black_0%,black_36%,transparent_78%)]"
-          : "pointer-events-none absolute inset-y-0 left-1/2 -z-10 w-screen -translate-x-1/2 opacity-90 mask-[radial-gradient(ellipse_52%_58%_at_82%_40%,black_0%,black_30%,transparent_74%)]"
+          ? "pointer-events-none absolute inset-y-0 left-1/2 -z-10 w-screen -translate-x-1/2 animate-canvas-in opacity-90 mask-[radial-gradient(ellipse_58%_62%_at_76%_42%,black_0%,black_36%,transparent_78%)] motion-reduce:animate-none"
+          : "pointer-events-none absolute inset-y-0 left-1/2 -z-10 w-screen -translate-x-1/2 animate-canvas-in opacity-90 mask-[radial-gradient(ellipse_52%_58%_at_82%_40%,black_0%,black_30%,transparent_74%)] motion-reduce:animate-none"
       }
     >
       {/* Density is fixed now that the canvas only ever renders at >=1024px —

@@ -112,6 +112,30 @@
   --radius-panel: 16px;
   --radius-pill-category: 64px;
   --radius-pill: 100px;
+
+  /* Motion — the CSS half of lib/motion.ts.
+     `--ease-*` is Tailwind v4's easing namespace, so these generate real
+     `ease-out-quart` / `ease-out-expo` utilities. Before this, every CSS
+     transition on the site used the stock `ease` curve while every GSAP tween
+     used power3/power4 — the same gesture in two different accents depending on
+     which technology happened to drive it. */
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* The hero's WebGL field fading up once it mounts. It ends at 0.9 rather than
+     1 because that is the opacity the canvas holds at rest in both themes —
+     animating to 1 would brighten the field past its designed strength and then
+     leave it there. */
+  --animate-canvas-in: canvas-in 1.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+
+  @keyframes canvas-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 0.9;
+    }
+  }
 }
 
 /*
@@ -285,6 +309,31 @@
 
   ::selection {
     @apply bg-accent-brand/25 text-ink;
+  }
+
+  /**
+   * The backstop for the reduced-motion contract.
+   *
+   * Every GSAP animation on the site is already gated behind a
+   * `gsap.matchMedia("(prefers-reduced-motion: no-preference)")` branch, and the
+   * hand-written CSS transitions carry `motion-reduce:` variants. This rule is
+   * what makes that a guarantee rather than a convention: any transition or
+   * keyframe added later — including one that arrives inside a dependency —
+   * collapses to effectively nothing here without the author having to remember.
+   *
+   * Durations go to 0.01ms rather than 0 so `transitionend` and `animationend`
+   * still fire. Code that waits for one of those events would otherwise hang for
+   * exactly the users least able to tolerate a broken interface.
+   */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    ::before,
+    ::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
   }
 }
 
