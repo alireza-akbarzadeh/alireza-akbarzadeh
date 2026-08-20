@@ -15,7 +15,7 @@ import CaseStudyRail from "@/components/work/CaseStudyRail";
 import ArchitectureDiagram from "@/components/work/ArchitectureDiagram";
 import ProjectMotif from "@/components/work/ProjectMotif";
 import ProjectShots from "@/components/work/ProjectShots";
-import Tag from "@/components/ui/Tag";
+import TechLogo from "@/components/ui/TechLogo";
 import { button } from "@/components/ui/Button";
 
 type Params = { params: Promise<{ slug: string }> };
@@ -229,7 +229,7 @@ export default async function ProjectPage({ params }: Params) {
                       <h3 className="text-heading-md text-ink">{group.group}</h3>
                       <ul className="mt-5 flex flex-wrap gap-2">
                         {group.items.map((item) => (
-                          <Tag key={item}>{item}</Tag>
+                          <TechLogo key={item} name={item} />
                         ))}
                       </ul>
                     </div>

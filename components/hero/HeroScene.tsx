@@ -10,25 +10,55 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
  * React does after mount is nothing at all.
  */
 
+// Amplitude of the crossing waves. Named because the normal below is the
+// analytic derivative of the same expression and the two must not drift apart.
+const WAVE_AMPLITUDE = 0.85;
+
 const vertexShader = /* glsl */ `
   uniform float uTime;
   uniform vec2 uPointer;
   uniform float uSize;
   varying float vElevation;
   varying float vDistance;
+  varying float vShade;
+
+  const float AMP = ${WAVE_AMPLITUDE};
+
+  // A three-point rig, expressed as directions rather than THREE.Light objects.
+  // ShaderMaterial does not consume scene lights at all, so the usual
+  // ambient/key/fill trio has to be evaluated here by hand — the payoff is that
+  // it costs two dot products instead of three light uniforms plus the whole
+  // lights_fragment chunk.
+  const vec3 KEY_DIR  = vec3(-0.55,  0.62,  0.56);
+  const vec3 FILL_DIR = vec3( 0.68,  0.28,  0.68);
 
   void main() {
     vec3 pos = position;
 
     // two crossing waves, slightly out of phase, so the field never visibly loops
-    float wave = sin(pos.x * 0.55 + uTime * 0.42) * 0.5
-               + sin(pos.y * 0.42 - uTime * 0.31) * 0.5;
+    float waveX = sin(pos.x * 0.55 + uTime * 0.42) * 0.5;
+    float waveY = sin(pos.y * 0.42 - uTime * 0.31) * 0.5;
 
     // pointer acts as a soft gravity well
     float pointerDist = distance(pos.xy, uPointer * 6.0);
     float lift = smoothstep(4.0, 0.0, pointerDist);
 
-    pos.z += wave * 0.85 + lift * 1.35;
+    pos.z += (waveX + waveY) * AMP + lift * 1.35;
+
+    // Analytic surface normal: d/dx and d/dy of the wave above. Cheaper and
+    // steadier than dFdx/dFdy in the fragment stage, which on a point cloud
+    // would differentiate across unrelated particles rather than across the
+    // surface they describe.
+    float dzdx = cos(pos.x * 0.55 + uTime * 0.42) * 0.5 * 0.55 * AMP;
+    float dzdy = cos(pos.y * 0.42 - uTime * 0.31) * 0.5 * 0.42 * AMP;
+    vec3 normal = normalize(vec3(-dzdx, -dzdy, 1.0));
+
+    // Ambient floor keeps the troughs legible instead of crushing them to the
+    // background; key carries the form; fill lifts the shadow side just enough
+    // that the wave never reads as a hard two-tone band.
+    float key  = max(dot(normal, KEY_DIR), 0.0);
+    float fill = max(dot(normal, FILL_DIR), 0.0);
+    vShade = clamp(0.34 + key * 0.62 + fill * 0.22, 0.0, 1.0);
 
     vElevation = pos.z;
     vDistance = length(pos.xy);
@@ -46,8 +76,10 @@ const fragmentShader = /* glsl */ `
   uniform vec3 uColorLow;
   uniform vec3 uColorHigh;
   uniform float uAlpha;
+  uniform vec2 uShadeRange;
   varying float vElevation;
   varying float vDistance;
+  varying float vShade;
 
   void main() {
     // round, soft-edged points instead of squares
@@ -62,7 +94,27 @@ const fragmentShader = /* glsl */ `
     // with the accent surfacing only where the wave peaks, rather than as a
     // wash of brand colour. See DESIGN.md → "one chromatic token".
     vec3 color = mix(uColorLow, uColorHigh, smoothstep(0.25, 1.8, vElevation));
-    gl_FragColor = vec4(color, alpha * uAlpha);
+
+    // Light and dark disagree about which direction "lit" points. On the dark
+    // canvas a lit crest is brighter than its trough; on the pale canvas the
+    // same crest has to get *darker* to gain presence, because there is no
+    // headroom above the paper. uShadeRange carries that inversion — see
+    // PALETTES — so one shading term serves both themes.
+    color *= mix(uShadeRange.x, uShadeRange.y, vShade);
+
+    // Lit crests also sit a little more opaque than shadowed troughs, which
+    // reads as depth in both themes regardless of which way the value goes.
+    alpha *= mix(0.78, 1.0, vShade);
+
+    gl_FragColor = vec4(clamp(color, 0.0, 1.0), alpha * uAlpha);
+
+    // THREE.Color parses "#F2A93C" into the linear working space, but a
+    // ShaderMaterial writes gl_FragColor straight to an sRGB drawing buffer —
+    // so without this encode the amber landed at rgb(226,101,12), a burnt
+    // orange two steps off the design token, and the neutral collapsed to near
+    // black. Tone mapping is deliberately *not* included: these are exact UI
+    // tokens, and ACES would pull the accent off-hue again.
+    #include <colorspace_fragment>
   }
 `;
 
@@ -80,13 +132,31 @@ export type SceneTheme = "dark" | "light";
  */
 const PALETTES: Record<
   SceneTheme,
-  { low: string; high: string; blending: THREE.Blending; alpha: number }
+  {
+    low: string;
+    high: string;
+    blending: THREE.Blending;
+    alpha: number;
+    /**
+     * [unlit, lit] multiplier applied to the point colour by the shading term.
+     * Dark reads lit-as-brighter; light has no headroom above the paper, so it
+     * reads lit-as-darker and the pair inverts. Both are anchored on 1.0 so the
+     * mid-tone still lands on the design token rather than drifting off it.
+     */
+    shade: [number, number];
+  }
 > = {
   dark: {
     low: "#3f3f46",
     high: "#F2A93C",
     blending: THREE.AdditiveBlending,
-    alpha: 0.6,
+    // Retuned down from 0.6 alongside the colour-space fix below. These hex
+    // values were previously reaching the framebuffer un-encoded and therefore
+    // far darker than written — #3f3f46 arrived as rgb(13,13,16). Correcting
+    // the encode made the field roughly five times more present, so the alpha
+    // has to come down to keep it the quiet backdrop the hero was designed as.
+    alpha: 0.42,
+    shade: [0.5, 1.15],
   },
   light: {
     // Two steps lighter than the dark theme's neutral is deliberate: dark marks
@@ -96,6 +166,7 @@ const PALETTES: Record<
     high: "#C9942E",
     blending: THREE.NormalBlending,
     alpha: 0.55,
+    shade: [1.1, 0.66],
   },
 };
 
@@ -103,6 +174,7 @@ type FieldProps = { count: number; animate: boolean; theme: SceneTheme };
 
 function ParticleField({ count, animate, theme }: FieldProps) {
   const materialRef = useRef<THREE.ShaderMaterial>(null);
+  const pointer = useRef(new THREE.Vector2(0, 0));
   const { viewport, invalidate } = useThree();
 
   const positions = useMemo(() => {
@@ -132,6 +204,7 @@ function ParticleField({ count, animate, theme }: FieldProps) {
       uColorLow: { value: new THREE.Color(palette.low) },
       uColorHigh: { value: new THREE.Color(palette.high) },
       uAlpha: { value: palette.alpha },
+      uShadeRange: { value: new THREE.Vector2(...palette.shade) },
     };
     // Mount-time seed only; `theme` updates flow through the effect below.
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -145,6 +218,7 @@ function ParticleField({ count, animate, theme }: FieldProps) {
     material.uniforms.uColorLow.value.set(palette.low);
     material.uniforms.uColorHigh.value.set(palette.high);
     material.uniforms.uAlpha.value = palette.alpha;
+    material.uniforms.uShadeRange.value.set(...palette.shade);
     material.blending = palette.blending;
     material.needsUpdate = true;
 
@@ -153,7 +227,33 @@ function ParticleField({ count, animate, theme }: FieldProps) {
     invalidate();
   }, [theme, invalidate]);
 
-  useFrame((state, delta) => {
+  // The canvas sits under `pointer-events: none` — deliberately, so the hero's
+  // CTAs stay clickable through it — which also means R3F's own pointer plumbing
+  // never receives an event and `state.pointer` is pinned at (0, 0) forever.
+  // The gravity well in the vertex shader was therefore inert. Listening on the
+  // window restores it without putting a hit-target back over the buttons.
+  //
+  // Window-normalised rather than canvas-normalised on purpose: reading the
+  // canvas rect per move would force a layout on every pointer event, and the
+  // hero fills the viewport at the only scroll position where the field is
+  // visible, so the two agree closely enough for a background flourish.
+  useEffect(() => {
+    // Under prefers-reduced-motion the field renders one static frame; a
+    // pointer-reactive well is exactly the motion that setting asks us to drop.
+    if (!animate) return;
+
+    const onPointerMove = (event: PointerEvent) => {
+      pointer.current.set(
+        (event.clientX / window.innerWidth) * 2 - 1,
+        -(event.clientY / window.innerHeight) * 2 + 1
+      );
+    };
+
+    window.addEventListener("pointermove", onPointerMove, { passive: true });
+    return () => window.removeEventListener("pointermove", onPointerMove);
+  }, [animate]);
+
+  useFrame((_state, delta) => {
     const material = materialRef.current;
     if (!material) return;
 
@@ -163,8 +263,8 @@ function ParticleField({ count, animate, theme }: FieldProps) {
 
     // ease the pointer instead of snapping to it
     const target = material.uniforms.uPointer.value as THREE.Vector2;
-    target.x += (state.pointer.x - target.x) * Math.min(delta * 2.4, 1);
-    target.y += (state.pointer.y - target.y) * Math.min(delta * 2.4, 1);
+    target.x += (pointer.current.x - target.x) * Math.min(delta * 2.4, 1);
+    target.y += (pointer.current.y - target.y) * Math.min(delta * 2.4, 1);
   });
 
   return (
@@ -174,12 +274,10 @@ function ParticleField({ count, animate, theme }: FieldProps) {
       scale={viewport.width < 6 ? 0.72 : 1}
     >
       <bufferGeometry>
-        <bufferAttribute
-          attach="attributes-position"
-          args={[positions, 3]}
-          count={positions.length / 3}
-          itemSize={3}
-        />
+        {/* `args` already constructs BufferAttribute(positions, 3), which
+            derives count and itemSize itself — re-passing them as props just
+            reassigns the same numbers after the fact. */}
+        <bufferAttribute attach="attributes-position" args={[positions, 3]} />
       </bufferGeometry>
       <shaderMaterial
         ref={materialRef}

@@ -4,7 +4,7 @@ import { ArrowRight } from "lucide-react";
 import { projects } from "@/data/projects";
 import Reveal from "./ui/Reveal";
 import Section from "./ui/Section";
-import Tag from "./ui/Tag";
+import TechLogo from "./ui/TechLogo";
 import ProjectMotif from "./work/ProjectMotif";
 
 /**
@@ -62,7 +62,7 @@ const SelectedWork = () => (
 
               <ul className="mt-5 flex flex-wrap gap-2">
                 {project.stack.map((tech) => (
-                  <Tag key={tech}>{tech}</Tag>
+                  <TechLogo key={tech} name={tech} />
                 ))}
               </ul>
             </div>
